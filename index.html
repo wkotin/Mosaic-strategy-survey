@@ -1,425 +1,611 @@
-<!DOCTYPE html>
-<!-- saved from url=(0045)file:///C:/Users/ekoti/Downloads/index_3.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mosaic Strategy Workshop Survey</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --bg: #ffffff;
-    --bg-secondary: #f5f5f3;
-    --bg-info: #e6f1fb;
+    --bg-page: #f0f2f7;
+    --bg-secondary: #f7f6f3;
     --text: #1a1a18;
-    --text-secondary: #6b6b67;
-    --text-info: #185fa5;
-    --border: rgba(0,0,0,0.12);
-    --border-med: rgba(0,0,0,0.2);
-    --accent: #378ADD;
+    --text-secondary: #5a5a56;
+    --text-light: #9a9a96;
+    --border: rgba(0,0,0,0.09);
+    --border-med: rgba(0,0,0,0.16);
+    --accent: #1a5faa;
+    --accent-light: #eef4fc;
+    --green: #0e7c6a;
+    --green-light: #eaf6f3;
+    --teal: #0891b2;
+    --teal-light: #e0f7fa;
+    --purple: #6d28d9;
+    --purple-light: #ede9fe;
+    --orange: #c05621;
+    --orange-light: #fff3e8;
+    --gold: #a0620a;
+    --gold-light: #fdf4e7;
+    --pink: #be185d;
+    --pink-light: #fce7f3;
+    --red: #b83232;
+    --red-light: #fdeaea;
     --radius: 8px;
-    --radius-lg: 12px;
+    --radius-lg: 14px;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1c1c1a;
-      --bg-secondary: #252523;
-      --bg-info: #0c2d4a;
-      --text: #f0ede8;
-      --text-secondary: #9a9a94;
-      --text-info: #85b7eb;
-      --border: rgba(255,255,255,0.1);
-      --border-med: rgba(255,255,255,0.2);
-    }
-  }
-  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
-  .app { max-width: 800px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg-page); color: var(--text); font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  .app { max-width: 820px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
 
-  .gate { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 1rem; text-align: center; }
-  .gate-logo { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 0.5rem; }
-  .gate h1 { font-size: 26px; font-weight: 500; }
+  .gate { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; }
+  .gate-card { background: var(--bg); border-radius: var(--radius-lg); padding: 2.5rem 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
+  .gate-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; }
+  .gate h1 { font-size: 24px; font-weight: 600; }
   .gate p { color: var(--text-secondary); font-size: 14px; }
-  .gate input[type=password], .gate input[type=text] { width: 260px; padding: 10px 14px; font-size: 15px; border: 1px solid var(--border-med); border-radius: var(--radius); background: var(--bg); color: var(--text); margin-top: 0.5rem; display: block; }
-  .gate input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(55,138,221,0.15); }
-  .err { font-size: 13px; color: #c0392b; min-height: 18px; }
-  .btn { display: inline-block; padding: 9px 26px; border: 1px solid var(--border-med); border-radius: var(--radius); background: var(--bg); color: var(--text); cursor: pointer; font-size: 14px; font-family: inherit; transition: background 0.15s; }
-  .btn:hover { background: var(--bg-secondary); }
-  .btn.primary { background: var(--text); color: var(--bg); border-color: var(--text); }
-  .btn.primary:hover { opacity: 0.85; }
-  .btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .gate input[type=password] { width: 100%; padding: 11px 14px; font-size: 15px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
+  .gate input[type=password]:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.12); }
+  .err { font-size: 13px; color: var(--red); min-height: 18px; }
 
-  .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 8px; }
-  .header-logo { font-size: 12px; font-weight: 600; letter-spacing: 0.1em; color: var(--text-secondary); }
-  .tabs { display: flex; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-  .tab { padding: 6px 18px; font-size: 13px; cursor: pointer; border: none; background: none; color: var(--text-secondary); font-family: inherit; transition: background 0.15s; }
-  .tab.active { background: var(--bg-secondary); color: var(--text); font-weight: 500; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 26px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg); color: var(--text); cursor: pointer; font-size: 14px; font-family: inherit; font-weight: 500; transition: all 0.15s; }
+  .btn:hover { background: var(--bg-secondary); border-color: var(--accent); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn.primary:hover { background: #144d8e; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 0.5rem; }
-  .progress-fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s ease; }
-  .progress-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 2rem; }
+  .survey-header { background: var(--bg); border-radius: var(--radius-lg); padding: 1rem 1.5rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 8px; }
+  .header-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; }
+  .tabs { display: flex; background: var(--bg-secondary); border-radius: var(--radius); padding: 3px; gap: 2px; }
+  .tab { padding: 6px 18px; font-size: 13px; cursor: pointer; border: none; background: none; color: var(--text-secondary); font-family: inherit; font-weight: 500; border-radius: 6px; transition: all 0.15s; }
+  .tab.active { background: var(--bg); color: var(--accent); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
 
-  .section-title { font-size: 20px; font-weight: 500; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); margin-bottom: 1.5rem; }
-  .question { margin-bottom: 1.5rem; }
-  .q-label { font-size: 15px; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
-  .q-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; margin-top: 4px; }
-  textarea { width: 100%; padding: 10px 12px; font-size: 14px; border: 1px solid var(--border-med); border-radius: var(--radius); background: var(--bg); color: var(--text); resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.5; }
-  textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(55,138,221,0.12); }
+  .progress-wrap { background: var(--bg); border-radius: var(--radius-lg); padding: 1rem 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .progress-steps { display: flex; gap: 6px; margin-bottom: 0.6rem; }
+  .progress-step { flex: 1; height: 5px; border-radius: 3px; background: var(--border); transition: background 0.3s; }
+  .progress-step.done { background: var(--accent); }
+  .progress-step.active { background: #93b8de; }
+  .progress-label { font-size: 13px; color: var(--text-secondary); }
+  .progress-label strong { color: var(--text); }
 
-  .rating-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
-  .rating-label { font-size: 13px; color: var(--text-secondary); flex: 1; min-width: 180px; }
-  .stars { display: flex; gap: 4px; }
-  .star { width: 30px; height: 30px; border: 1px solid var(--border-med); border-radius: var(--radius); background: var(--bg); cursor: pointer; font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; justify-content: center; transition: background 0.1s; user-select: none; }
-  .star:hover { background: var(--bg-secondary); }
-  .star.sel { background: var(--bg-info); color: var(--text-info); border-color: var(--accent); font-weight: 500; }
+  .card { background: var(--bg); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .card-title { font-size: 17px; font-weight: 600; color: var(--accent); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--accent-light); display: flex; align-items: center; gap: 8px; }
+  .card-title.green { color: var(--green); border-bottom-color: var(--green-light); }
+  .card-title.gold  { color: var(--gold);  border-bottom-color: var(--gold-light); }
+  .card-title.purple{ color: var(--purple);border-bottom-color: var(--purple-light); }
+  .card-title.orange{ color: var(--orange);border-bottom-color: var(--orange-light); }
+  .card-title.pink  { color: var(--pink);  border-bottom-color: var(--pink-light); }
+  .card-title .icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--accent-light); }
+  .card-title.green  .icon { background: var(--green-light); }
+  .card-title.gold   .icon { background: var(--gold-light); }
+  .card-title.purple .icon { background: var(--purple-light); }
+  .card-title.orange .icon { background: var(--orange-light); }
+  .card-title.pink   .icon { background: var(--pink-light); }
 
-  .module-card { background: var(--bg-secondary); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
-  .module-card-title { font-size: 14px; font-weight: 500; margin-bottom: 0.75rem; }
+  .question { margin-bottom: 1.75rem; }
+  .question:last-child { margin-bottom: 0; }
+  .q-label { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
+  .q-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; line-height: 1.5; }
+  .q-underline { text-decoration: underline; font-weight: 600; color: var(--text); display: block; margin-bottom: 10px; font-size: 14px; }
+  textarea { width: 100%; padding: 11px 13px; font-size: 14px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.6; transition: border 0.15s, background 0.15s; }
+  textarea:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.1); }
+  textarea.field-error { border-color: var(--red); background: var(--red-light); }
 
-  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+  .rating-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .rating-item:last-child { border-bottom: none; }
+  .rating-item-label { font-size: 13px; color: var(--text-secondary); flex: 1; min-width: 150px; padding-top: 6px; }
+  .rating-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+  .rBtn { padding: 6px 10px; border: 1.5px solid var(--border-med); border-radius: 6px; background: var(--bg-secondary); cursor: pointer; font-size: 11px; font-family: inherit; font-weight: 500; color: var(--text-secondary); transition: all 0.12s; line-height: 1.3; text-align: center; white-space: nowrap; }
+  .rBtn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+  .rBtn.sel { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .rBtn.field-error { border-color: var(--red) !important; background: var(--red-light) !important; }
 
-  .submitted { text-align: center; padding: 4rem 1rem; }
-  .submitted h2 { font-size: 24px; font-weight: 500; margin-bottom: 0.5rem; }
-  .submitted p { color: var(--text-secondary); }
+  .sub-card { border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 0.75rem; border-left: 4px solid var(--accent); background: var(--accent-light); }
+  .sub-card.green  { border-left-color: var(--green);  background: var(--green-light); }
+  .sub-card.teal   { border-left-color: var(--teal);   background: var(--teal-light); }
+  .sub-card.purple { border-left-color: var(--purple); background: var(--purple-light); }
+  .sub-card.orange { border-left-color: var(--orange); background: var(--orange-light); }
+  .sub-card.gold   { border-left-color: var(--gold);   background: var(--gold-light); }
+  .sub-card.pink   { border-left-color: var(--pink);   background: var(--pink-light); }
+  .sub-card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .sub-card-desc  { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; line-height: 1.5; }
+  .sub-card-value { font-size: 12px; color: var(--green); font-weight: 500; margin-bottom: 0.75rem; line-height: 1.5; }
 
-  .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.5rem; }
-  .stat { background: var(--bg-secondary); border-radius: var(--radius); padding: 0.75rem 1rem; flex: 1; min-width: 100px; }
-  .stat-val { font-size: 26px; font-weight: 500; }
+  .name-fields { display: flex; gap: 10px; flex-wrap: wrap; }
+  .name-fields input { flex: 1; min-width: 130px; padding: 11px 13px; font-size: 14px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
+  .name-fields input:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.1); }
+  .name-fields input.field-error { border-color: var(--red); background: var(--red-light); }
+
+  .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
+
+  .val-banner { background: var(--red-light); border: 1.5px solid var(--red); border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: var(--red); margin-bottom: 1rem; font-weight: 500; line-height: 1.6; }
+  .val-banner ul { margin: 6px 0 0 16px; }
+  .val-banner ul li { margin-bottom: 2px; }
+
+  .submitted { text-align: center; padding: 5rem 1rem; background: var(--bg); border-radius: var(--radius-lg); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .submitted h2 { font-size: 26px; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; }
+  .submitted p { color: var(--text-secondary); font-size: 15px; }
+  .check { font-size: 48px; margin-bottom: 1rem; }
+
+  .info-box { background: var(--accent-light); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 1.25rem; font-size: 13px; line-height: 1.8; color: var(--text-secondary); border-left: 3px solid var(--accent); }
+  .info-box strong { color: var(--accent); }
+
+  .optional-tag { font-weight: 400; color: var(--text-light); font-size: 13px; }
+
+  .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .stat { background: var(--bg); border-radius: var(--radius); padding: 0.9rem 1.1rem; flex: 1; min-width: 100px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-top: 3px solid var(--accent); }
+  .stat-val { font-size: 28px; font-weight: 700; color: var(--accent); }
   .stat-lbl { font-size: 12px; color: var(--text-secondary); margin-top: 2px; }
-  .dash-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1rem; }
-  .dash-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 0.75rem; }
-  .resp-item { padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); }
+  .dash-card { background: var(--bg); border-radius: var(--radius-lg); padding: 1.1rem 1.4rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+  .dash-card h3 { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+  .resp-item { padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
   .resp-item:last-child { border-bottom: none; }
   .resp-item strong { color: var(--text); }
-  .bar-row { display: flex; align-items: center; gap: 10px; padding: 5px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
   .bar-row:last-child { border-bottom: none; }
   .bar-label { flex: 1; color: var(--text-secondary); }
-  .bar-val { font-weight: 500; width: 28px; text-align: right; color: var(--text); }
-  .bar-track { width: 80px; height: 5px; background: var(--border); border-radius: 3px; }
+  .bar-val { font-weight: 600; width: 30px; text-align: right; color: var(--accent); }
+  .bar-track { width: 90px; height: 6px; background: var(--bg-secondary); border-radius: 3px; }
   .bar-fill { height: 100%; background: var(--accent); border-radius: 3px; }
-  .no-resp { color: var(--text-secondary); font-size: 13px; font-style: italic; padding: 0.5rem 0; }
+  .no-resp { color: var(--text-light); font-size: 13px; font-style: italic; padding: 0.5rem 0; }
   .loading { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 14px; }
   .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .name-fields { display: flex; gap: 8px; flex-wrap: wrap; }
-  .name-fields input { flex: 1; min-width: 120px; padding: 10px 12px; font-size: 14px; border: 1px solid var(--border-med); border-radius: var(--radius); background: var(--bg); color: var(--text); font-family: inherit; }
-  .name-fields input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(55,138,221,0.12); }
+
   @media (max-width: 600px) {
-    .rating-row { flex-direction: column; align-items: flex-start; }
-    .rating-label { min-width: unset; }
+    .rating-item { flex-direction: column; }
+    .rating-item-label { padding-top: 0; }
   }
 </style>
 </head>
 <body>
-<div class="app" id="app"><div class="gate"><div><div class="gate-logo">MOSAIC</div><h1>Strategy Workshop Survey</h1><p style="margin-top:0.5rem">Enter the password to continue</p></div><input type="password" id="pw" placeholder="Password" onkeydown="if(event.key===&#39;Enter&#39;)checkPw()"><div class="err" id="pw-err"></div><button class="btn primary" onclick="checkPw()">Continue</button></div></div>
+<div class="app" id="app"></div>
 <script>
 const SUPABASE_URL = "https://rrqhatvuxhrwfsccdnbb.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJycWhhdHZ1eGhyd2ZzY2NkbmJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYwMjQwMTMsImV4cCI6MjA5MTYwMDAxM30.ILato9OdZf7qbESHBiXQXtoKeZ12c2YUoUw62BzCNIU";
-const SURVEY_PASS = "mosaic2025";
-const RESULTS_PASS = "mosaicadmin2025";
+const SURVEY_PASS  = "mosaic2026";
+const RESULTS_PASS = "mosaicadmin2026";
 
-const CUSTOMERS = ["US radiology practices","International radiology practices","OICs","Hospitals","Payers","Pharma","Medtech","Veterinary","Dental"];
-const MODULES = ["Cloud Native Archive / Streaming","Worklist","InfoHub (Patient Jacket)","Capture","Results Center","Drafting","Viewer","Ambient reporting"];
-const VERT_IDEAS = ["Imaging order prior authorization","Order-to-acquisition optimization","Acquisition optimization","Peer learning platform","Opportunistic screening","Radiology follow up","Mosaic analytics","Radiology billing"];
-const HORIZ_IDEAS = ["Enterprise PACS","Acute care coordination","Patient management","Exam lifecycle visibility (Pizza Tracker)","ED app (escalation feature)","Ordering physician chat","Prioritization portal","Pre-authorization for imaging (Payers)","Drugs (Pharma) + Medical Devices (MedTech)","Dental x-ray drafting","Dog + Cat x-ray drafting"];
-const COMP_ADVS = ["Regulatory (drafting clearances)","Distribution (install base)","Proprietary data","Enterprise reliability","Deep clinical integration","Superior execution","RPCS flywheel"];
-const SECTIONS = ["Mission","Customers & Products","Core Reading Platform","Product Ideas","Competitive Advantage"];
+const SECTIONS = ["Mosaic Mission","Mosaic Customers","Mosaic Core Reading Platform","Future Products","Competitive Advantage"];
 
-let state = { view:"gate", section:0, answers:{}, tab:"survey", resultsData:null, submitting:false, resultsLoading:false, resultsAuthed:false };
+const CUSTOMERS = [
+  "US radiology practices",
+  "International radiology practices",
+  "Outpatient Imaging Centers (US + international)",
+  "US Health Systems",
+  "Payers","Pharma","Medtech","Veterinary","Dental"
+];
 
-function g(k, d="") { return state.answers[k] !== undefined ? state.answers[k] : d; }
-function sv(k, v) { state.answers[k] = v; }
+const MODULES = [
+  "Drafting","Reporting","Viewer","Worklist",
+  "InfoHub (Patient Jacket)","Cloud Native Archive / Streaming",
+  "Results Center (formerly CORE and VRAs)","Capture","Analytics"
+];
 
-async function saveToSupabase() {
-  const resp = await fetch(SUPABASE_URL + "/rest/v1/responses", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "apikey": SUPABASE_KEY,
-      "Authorization": "Bearer " + SUPABASE_KEY,
-      "Prefer": "return=minimal"
-    },
-    body: JSON.stringify({ answers: state.answers })
-  });
-  if(!resp.ok) {
-    const txt = await resp.text();
-    throw new Error(txt || resp.status);
-  }
+const END_STATE_LABELS = [
+  "1 — Table stakes",
+  "2 — Competitive parity",
+  "3 — Market leading",
+  "4 — Category defining"
+];
+
+const VERT_COLORS = ["green","teal","purple","orange","gold","pink","green","teal"];
+const VERT_IDEAS = [
+  { name:"Imaging order prior authorization", desc:"Tool to approve or reject imaging orders from providers based on relevant context (e.g., patient history, workup)", value:"Prevents ordering providers from unnecessarily utilizing imaging (and backing up the ED)" },
+  { name:"Order-to-acquisition optimization", desc:"Tool to auto-schedule scans considering specific techs, machines, and protocols", value:"Increases number of scans the customer can perform by minimizing downtime between scans" },
+  { name:"Acquisition optimization", desc:"Tool to decrease image acquisition time (e.g., Subtle)", value:"Increases number of scans the customer can perform by minimizing time in the scanner (aka tabletop time)" },
+  { name:"Peer learning platform", desc:"Tool for rads to flag interesting or discrepant cases for review with trend analysis (by rad, modality, body part) to identify learning needs", value:"Improved quality for radiologist reads" },
+  { name:"Opportunistic screening", desc:"AI-assisted detection of opportunistic findings like CAC, BAC, Hepatic Steatosis", value:"Improved report quality; potential downstream care impacts for hospital" },
+  { name:"Radiology follow up", desc:"Tool to track and manage recommendations made by radiologists in their reports (e.g., repeat CT to monitor nodule)", value:"Increases number of radiology-related follow ups the customer captures / prevents patient leakage" },
+  { name:"Mosaic analytics", desc:"Tool to monitor the availability, performance, and reliability of Mosaic. Extend to benchmark performance across scanners, techs, sites, and potentially the entire industry", value:"Allows customer to manage and track Mosaic performance" },
+  { name:"Radiology billing", desc:"Tool to optimize radiology billing through the report or the action of billing (charge capture, coding, claims generation, eligibility, denial management, payment posting)", value:"Decreases amount of time and effort required for billing" }
+];
+
+const HORIZ_COLORS = ["purple","orange","gold","pink","green","teal","purple","orange","gold","pink","green"];
+const HORIZ_IDEAS = [
+  { name:"Enterprise PACS", desc:"Platform to store, manage, distribute, display medical images across the entire health system (i.e., radiology, pathology, cardiology)", value:"Faster, cheaper replacement for existing PACS" },
+  { name:"Acute care coordination", desc:"Tool to manage complex workflows involved in caring for critically ill patients across specialties (e.g., stroke cases)", value:"Improves speed of care and therefore improves patient outcomes" },
+  { name:"Patient management", desc:"Tool to track and manage all patient follow ups (e.g., follow up appointment with cardiologist)", value:"Increases number of follow ups the customer captures / prevents patient leakage" },
+  { name:"Exam lifecycle visibility (\"Pizza Tracker\")", desc:"Tracking dashboard to show each exam's status from order to acquisition to QC to read to complete for ordering physician", value:"Provides visibility into radiology TAT" },
+  { name:"ED app (escalation feature)", desc:"Tool to allow ED and ICU staff to escalate urgent cases, after providing a reason, to route cases for faster reads", value:"Provides some control over TATs for ordering providers" },
+  { name:"Ordering physician chat", desc:"Tool to allow direct communication between radiologists in Mosaic and referring clinicians in EMRs", value:"Streamlines communication, reduces delays and callbacks" },
+  { name:"Prioritization portal", desc:"Tool to submit weekly requests for exam prioritization (e.g., focus on outpatient, pause certain cases while physicians are on PTO)", value:"Allows hospitals to shape workflow around local needs" },
+  { name:"Pre-authorization for imaging (for Payers)", desc:"Tool to expedite imaging claim arbitration (e.g., provide Payers with imaging data)", value:"Increased efficiency in underwriting claims" },
+  { name:"Drugs (Pharma) + Medical Devices (MedTech)", desc:"Co-development on drugs or devices; clinical trial support; commercial distribution", value:"N/A" },
+  { name:"Dental x-ray drafting", desc:"Cognita for teeth", value:"Increased efficiency for dental reads" },
+  { name:"Dog + Cat x-ray drafting", desc:"Cognita for pets", value:"Increased efficiency for pet reads" }
+];
+
+const COMP_ADVS = [
+  { name:"Regulatory", desc:"Drafting clearances that others cannot easily replicate (first mover to DeNovo to set the moat high)" },
+  { name:"Distribution", desc:"Fast expansion of Mosaic install base to lock-in customers" },
+  { name:"Proprietary data", desc:"Access to data (images, exams, EHR) that others cannot replicate" },
+  { name:"Enterprise reliability", desc:"Robust software with reliable uptime versus our peer competitors" },
+  { name:"Deep clinical integration", desc:"Clinical insights built into full workflow leading to seamless experience for clinicians" },
+  { name:"Superior execution", desc:"Speed of iteration and product release" },
+  { name:"Radiology Partners Clinical Services flywheel", desc:"Mosaic makes our RP clinicians successful and vice versa — a self-reinforcing cycle between our reading platform, clinical insights, and customer success" }
+];
+
+const CUST_LABELS    = ["Not important","Somewhat important","Important","Very important"];
+const CONF_LABELS    = ["Not confident","Somewhat confident","Confident","Very confident"];
+const ATTRACT_LABELS = ["Not attractive","Somewhat attractive","Moderately attractive","Attractive","Very attractive"];
+const DIFF_LABELS    = ["Very easy","Easy","Moderate","Difficult","Very difficult"];
+const REP_LABELS     = ["Very easy","Easy","Moderate","Difficult","Very difficult"];
+const IMP_LABELS     = ["Not important","Somewhat important","Important","Very important"];
+const PERF_LABELS    = ["Very weak","Weak","Moderate","Strong","Very strong"];
+const CAPACITY_LABELS= ["0 — No capacity","1 — One new idea","2 — Two new ideas","3 — Three new ideas","4+ — Four or more"];
+
+let state = { view:"gate", section:0, answers:{}, tab:"survey", resultsData:null, submitting:false, resultsLoading:false, resultsAuthed:false, errors:[] };
+
+function g(k,d){ if(d===undefined)d=""; return state.answers[k]!==undefined?state.answers[k]:d; }
+function sv(k,v){ state.answers[k]=v; if(state.errors.length) state.errors=state.errors.filter(function(e){return e!==k;}); }
+
+async function saveToSupabase(){
+  var r=await fetch(SUPABASE_URL+"/rest/v1/responses",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Prefer":"return=minimal"},body:JSON.stringify({answers:state.answers})});
+  if(!r.ok){var t=await r.text();throw new Error(t||r.status);}
 }
+async function fetchResponses(){
+  var r=await fetch(SUPABASE_URL+"/rest/v1/responses?select=*&order=submitted_at.asc",{headers:{"apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY}});
+  if(!r.ok) throw new Error("Failed to fetch: "+r.status);
+  return r.json();
+}
+function avg(all,key){
+  var vals=all.map(function(r){return r.answers[key];}).filter(function(v){return v>0&&!isNaN(v);});
+  return vals.length?(vals.reduce(function(a,b){return a+b;},0)/vals.length).toFixed(1):"—";
+}
+function isErr(k){ return state.errors.indexOf(k)>=0; }
 
-async function fetchResponses() {
-  const resp = await fetch(SUPABASE_URL + "/rest/v1/responses?select=*&order=submitted_at.asc", {
-    headers: {
-      "apikey": SUPABASE_KEY,
-      "Authorization": "Bearer " + SUPABASE_KEY
-    }
-  });
-  if(!resp.ok) throw new Error("Failed to fetch: " + resp.status);
-  return resp.json();
-}
-
-function avg(all, key) {
-  const vals = all.map(r => r.answers[key]).filter(v => v > 0 && !isNaN(v));
-  return vals.length ? (vals.reduce((a,b)=>a+b,0)/vals.length).toFixed(1) : "—";
-}
-
-function stars(key, scale) {
-  const cur = g(key, 0);
-  return '<div class="stars">' + Array.from({length:scale},(_,j)=>'<div class="star'+(cur===j+1?" sel":"")+('" onclick="setR(\''+key+'\',')+(j+1)+')">'+(j+1)+'</div>').join("") + '</div>';
-}
-function ratingBlock(prefix, labels, scale) {
-  scale = scale || 5;
-  return labels.map(function(lbl,i){ return '<div class="rating-row"><span class="rating-label">'+lbl+'</span>'+stars(prefix+"_"+i, scale)+'</div>'; }).join("");
-}
-function ta(key, ph) {
-  ph = ph || "Your response...";
-  return '<textarea placeholder="'+ph+'" oninput="sv(\''+key+'\',this.value)">'+g(key)+'</textarea>';
-}
-function ideaBlock(prefix, ideas) {
-  return ideas.map(function(idea,i){
-    return '<div class="module-card">'
-      +'<div class="module-card-title">'+idea+'</div>'
-      +'<div class="rating-row"><span class="rating-label">Attractiveness / potential value</span>'+stars(prefix+"_attr_"+i,5)+'</div>'
-      +'<div class="rating-row"><span class="rating-label">Difficulty to build</span>'+stars(prefix+"_diff_"+i,5)+'</div>'
-      +'<div class="rating-row"><span class="rating-label">Difficulty for competitor to replicate</span>'+stars(prefix+"_rep_"+i,5)+'</div>'
-      +'</div>';
+function rBtns(key,labels,isIndexed){
+  return labels.map(function(lbl,j){
+    var val=isIndexed?j:j+1;
+    var cur=g(key,isIndexed?-1:0);
+    var sel=cur===val?" sel":"";
+    var err=isErr(key)&&!sel?" field-error":"";
+    return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+key+'\','+val+')">'+lbl+'</button>';
   }).join("");
 }
 
-function section0() {
-  return '<div class="question"><div class="q-label">Your name</div><div class="name-fields">'
-    +'<input type="text" placeholder="First name" value="'+g('first_name')+'" oninput="sv(\'first_name\',this.value)">'
-    +'<input type="text" placeholder="Last name" value="'+g('last_name')+'" oninput="sv(\'last_name\',this.value)">'
-    +'</div></div>'
-    +'<div class="question"><div class="q-label">If Mosaic is wildly successful, who will it impact and what will it do for them?</div>'+ta("mission_impact")+'</div>'
-    +'<div class="question"><div class="q-label">What is the Mission of Mosaic?</div>'+ta("mission_statement")+'</div>';
+function ta(key,ph,optional){
+  ph=ph||"Your response...";
+  var errCls=(!optional&&isErr(key))?" field-error":"";
+  return '<textarea id="ta_'+key+'" class="'+errCls+'" placeholder="'+ph+'" oninput="sv(\''+key+'\',this.value)">'+g(key)+'</textarea>';
+}
+function nameInput(key,ph){
+  var errCls=isErr(key)?" field-error":"";
+  return '<input id="inp_'+key+'" type="text" class="'+errCls+'" placeholder="'+ph+'" value="'+g(key)+'" oninput="sv(\''+key+'\',this.value)">';
 }
 
-function section1() {
-  return '<div class="question">'
-    +'<div class="q-label">Rate the importance of serving each customer segment (1 = not very important, 5 = very important)</div>'
-    +'<div class="q-sub" style="margin-top:1rem;font-weight:500">Next 18 months</div>'
-    +ratingBlock("c18",CUSTOMERS)
-    +'<div class="q-sub" style="margin-top:1.25rem;font-weight:500">By 2030</div>'
-    +ratingBlock("c30",CUSTOMERS)
-    +'</div>';
+function getAllRequired(){
+  var req=["first_name","last_name","mission_combined"];
+  CUSTOMERS.forEach(function(_,i){req.push("c18_"+i,"c30_"+i);});
+  MODULES.forEach(function(_,i){req.push("mod_es_"+i,"mod_conf_"+i);});
+  req.push("capacity");
+  VERT_IDEAS.forEach(function(_,i){req.push("vert_attr_"+i,"vert_diff_"+i,"vert_rep_"+i);});
+  HORIZ_IDEAS.forEach(function(_,i){req.push("horiz_attr_"+i,"horiz_diff_"+i,"horiz_rep_"+i);});
+  req.push("comp_competitors","florida_question");
+  COMP_ADVS.forEach(function(_,i){req.push("cadv_imp_"+i,"cadv_perf_"+i);});
+  return req;
 }
-
-function section2() {
-  return '<div class="question">'
-    +'<div class="q-label">Rate each module\'s target end-state (1 = Table stakes, 2 = Competitive parity, 3 = Market leading, 4 = Category defining)</div>'
-    +ratingBlock("mod_es",MODULES,4)
-    +'</div>'
-    +MODULES.map(function(m,i){
-      return '<div class="module-card">'
-        +'<div class="module-card-title">'+m+'</div>'
-        +'<div class="q-sub">Describe the 2030 end-state</div>'+ta("mod_desc_"+i,"Describe the 2030 end-state...")
-        +'<div class="q-sub" style="margin-top:8px">Have competitors reached this? Name them</div>'+ta("mod_comp_"+i,"Competitor names...")
-        +'<div class="q-sub" style="margin-top:8px">Confidence in delivery at current pace (1–5)</div>'+stars("mod_conf_"+i,5)
-        +'<div class="q-sub" style="margin-top:8px">What would raise your confidence?</div>'+ta("mod_raise_"+i,"What would help...")
-        +'</div>';
-    }).join("")
-    +'<div class="question" style="margin-top:1.5rem">'
-    +'<div class="q-label">With current capacity, how many new ideas can we take on in the next 12 months? (1 = one idea, 5 = four or more)</div>'
-    +stars("capacity",5)
-    +'</div>';
-}
-
-function section3() {
-  return '<div class="section-title" style="font-size:16px;border:none;padding:0;margin-bottom:1rem">Vertical product ideas</div>'
-    +ideaBlock("vert",VERT_IDEAS)
-    +'<div class="question"><div class="q-sub">Any other vertical ideas?</div>'+ta("vert_other")+'</div>'
-    +'<div class="section-title" style="font-size:16px;border:none;padding:0;margin-top:1.5rem;margin-bottom:1rem">Horizontal product ideas</div>'
-    +ideaBlock("horiz",HORIZ_IDEAS)
-    +'<div class="question"><div class="q-sub">Any other horizontal ideas?</div>'+ta("horiz_other")+'</div>';
-}
-
-function section4() {
-  return '<div class="question"><div class="q-label">Who are our largest competitors and why?</div>'+ta("comp_competitors")+'</div>'
-    +COMP_ADVS.map(function(adv,i){
-      return '<div class="module-card">'
-        +'<div class="module-card-title">'+adv+'</div>'
-        +'<div class="rating-row"><span class="rating-label">Importance to Mosaic\'s success</span>'+stars("cadv_imp_"+i,5)+'</div>'
-        +'<div class="rating-row"><span class="rating-label">Ease of competitor replication</span>'+stars("cadv_ease_"+i,5)+'</div>'
-        +'<div class="rating-row"><span class="rating-label">Our current performance</span>'+stars("cadv_perf_"+i,5)+'</div>'
-        +'<div class="q-sub" style="margin-top:8px">What would increase our performance?</div>'+ta("cadv_raise_"+i)
-        +'</div>';
-    }).join("")
-    +'<div class="question" style="margin-top:1rem"><div class="q-sub">Any competitive advantages we\'re missing?</div>'+ta("comp_other")+'</div>'
-    +'<div class="question"><div class="q-label">If wildly successful, what will be the keys to our 2030 success?</div>'+ta("success_keys")+'</div>'
-    +'<div class="question"><div class="q-label">If we fail to achieve our 2030 ambition, what will be the reasons?</div>'+ta("fail_reasons")+'</div>';
-}
-
-function renderSurvey() {
-  var sectionFns = [section0,section1,section2,section3,section4];
-  var prog = Math.round((state.section+1)/SECTIONS.length*100);
-  var isLast = state.section === SECTIONS.length-1;
-  var submitBtn = isLast
-    ? '<button class="btn primary" onclick="submitSurvey()" '+(state.submitting?"disabled":"")+'>'+
-      (state.submitting?'<span class="spinner"></span>Submitting...':'Submit survey')+'</button>'
-    : '<button class="btn primary" onclick="next()">Next</button>';
-  return '<div class="progress-bar"><div class="progress-fill" style="width:'+prog+'%"></div></div>'
-    +'<div class="progress-label">Section '+(state.section+1)+' of '+SECTIONS.length+' — '+SECTIONS[state.section]+'</div>'
-    +'<div class="section-title">'+SECTIONS[state.section]+'</div>'
-    +sectionFns[state.section]()
-    +'<div class="nav-row">'
-    +'<button class="btn" onclick="prev()" '+(state.section===0?"disabled":"")+'>Back</button>'
-    +submitBtn
-    +'</div>';
-}
-
-function renderDashboard() {
-  if(state.resultsLoading) return '<div class="loading"><span class="spinner"></span>Loading responses...</div>';
-  var all = state.resultsData || [];
-  if(!all.length) return '<div class="no-resp" style="padding:2rem 0;text-align:center">No responses yet.</div>';
-
-  var latest = new Date(all[all.length-1].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
-  var names = all.map(function(r,i){
-    var fn = r.answers.first_name||"";
-    var ln = r.answers.last_name||"";
-    return (fn||ln) ? (fn+" "+ln).trim() : "Respondent "+(i+1);
+function getMissing(){
+  return getAllRequired().filter(function(k){
+    var v=state.answers[k];
+    if(v===undefined||v===""||v===null) return true;
+    if(k==="capacity"&&typeof v==="number"&&v<0) return true;
+    return false;
   });
+}
+function friendlyLabel(k){
+  if(k==="first_name") return "First name (Section 1)";
+  if(k==="last_name") return "Last name (Section 1)";
+  if(k==="mission_combined") return "Mosaic mission (Section 1)";
+  if(k==="comp_competitors") return "Largest competitors (Section 5)";
+  if(k==="florida_question") return "Florida question (Section 5)";
+  if(k==="capacity") return "Capacity for new ideas (Section 4)";
+  var m;
+  m=k.match(/^c18_(\d+)$/); if(m) return "18-month rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
+  m=k.match(/^c30_(\d+)$/); if(m) return "2030 rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
+  m=k.match(/^mod_es_(\d+)$/);   if(m) return "End-state target — "+MODULES[+m[1]]+" (Section 3)";
+  m=k.match(/^mod_conf_(\d+)$/); if(m) return "Confidence — "+MODULES[+m[1]]+" (Section 3)";
+  m=k.match(/^vert_attr_(\d+)$/); if(m) return "Attractiveness — "+VERT_IDEAS[+m[1]].name+" (Section 4)";
+  m=k.match(/^vert_diff_(\d+)$/); if(m) return "Build difficulty — "+VERT_IDEAS[+m[1]].name+" (Section 4)";
+  m=k.match(/^vert_rep_(\d+)$/);  if(m) return "Competitor replication — "+VERT_IDEAS[+m[1]].name+" (Section 4)";
+  m=k.match(/^horiz_attr_(\d+)$/); if(m) return "Attractiveness — "+HORIZ_IDEAS[+m[1]].name+" (Section 4)";
+  m=k.match(/^horiz_diff_(\d+)$/); if(m) return "Build difficulty — "+HORIZ_IDEAS[+m[1]].name+" (Section 4)";
+  m=k.match(/^horiz_rep_(\d+)$/);  if(m) return "Competitor replication — "+HORIZ_IDEAS[+m[1]].name+" (Section 4)";
+  m=k.match(/^cadv_imp_(\d+)$/);  if(m) return "Importance — "+COMP_ADVS[+m[1]].name+" (Section 5)";
+  m=k.match(/^cadv_perf_(\d+)$/); if(m) return "Performance — "+COMP_ADVS[+m[1]].name+" (Section 5)";
+  return k;
+}
 
-  function openText(key, label) {
-    var entries = all.map(function(r,i){ return r.answers[key]?'<div class="resp-item"><strong>'+names[i]+':</strong> '+r.answers[key]+'</div>':""; }).join("");
+/* ────────── Sections ────────── */
+
+function section0(){
+  return '<div class="card">'
+    +'<div class="card-title"><span class="icon">👤</span>About You</div>'
+    +'<div class="question"><div class="q-label">Your name</div>'
+    +'<div class="name-fields">'+nameInput("first_name","First name")+nameInput("last_name","Last name")+'</div>'
+    +'</div></div>'
+    +'<div class="card">'
+    +'<div class="card-title"><span class="icon">🎯</span>Mosaic Mission</div>'
+    +'<div class="question">'
+    +'<div class="q-label">What is the mission of Mosaic? If we are wildly successful, who will we impact and what will we do for them?</div>'
+    +ta("mission_combined","Share your vision...")
+    +'</div></div>';
+}
+
+function section1(){
+  var rows18=CUSTOMERS.map(function(c,i){
+    return '<div class="rating-item"><span class="rating-item-label">'+c+'</span><div class="rating-btns">'+rBtns("c18_"+i,CUST_LABELS)+'</div></div>';
+  }).join("");
+  var rows30=CUSTOMERS.map(function(c,i){
+    return '<div class="rating-item"><span class="rating-item-label">'+c+'</span><div class="rating-btns">'+rBtns("c30_"+i,CUST_LABELS)+'</div></div>';
+  }).join("");
+  return '<div class="card">'
+    +'<div class="card-title green"><span class="icon">🏥</span>Mosaic Customers</div>'
+    +'<div class="q-sub" style="margin-bottom:1.25rem">Specify how important it is for Mosaic to serve the following customers:</div>'
+    +'<div class="question"><span class="q-underline">Within the next 18 months</span><div>'+rows18+'</div></div>'
+    +'<div class="question"><span class="q-underline">By 2030</span><div>'+rows30+'</div></div>'
+    +'<div class="question"><div class="q-label">Any other potential customers we are overlooking? <span class="optional-tag">(optional)</span></div>'
+    +ta("cust_other","Other customers we should consider...",true)
+    +'</div></div>';
+}
+
+function section2(){
+  var infoBox='<div class="info-box">'
+    +'<strong>1 — Table stakes:</strong> Must-have features to be considered<br>'
+    +'<strong>2 — Competitive parity:</strong> No obvious gaps to 2–3 competitor alternatives<br>'
+    +'<strong>3 — Market leading:</strong> Measurably better on dimensions the market cares about / we win comparisons<br>'
+    +'<strong>4 — Category defining:</strong> Setting new standards for the market (rare, expensive, and usually only worth targeting on 1–2 features max)'
+    +'</div>';
+
+  var moduleCards=MODULES.map(function(m,i){
+    var esErr=isErr("mod_es_"+i);
+    var cfErr=isErr("mod_conf_"+i);
+    return '<div class="sub-card" style="background:#f8faff;border-left-color:var(--accent)">'
+      +'<div class="sub-card-title">'+m+'</div>'
+      +'<div class="q-sub" style="margin-top:8px">What is the target end-state for this module?</div>'
+      +'<div class="rating-btns" style="margin-bottom:1rem">'+END_STATE_LABELS.map(function(lbl,j){
+        var sel=g("mod_es_"+i)===j+1?" sel":"";
+        var err=esErr&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'mod_es_'+i+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div>'
+      +'<div class="q-sub">How confident are you in our team\'s ability to deliver this end-state at our "current course and speed"?</div>'
+      +'<div class="rating-btns">'+CONF_LABELS.map(function(lbl,j){
+        var sel=g("mod_conf_"+i)===j+1?" sel":"";
+        var err=cfErr&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'mod_conf_'+i+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div>'
+      +'</div>';
+  }).join("");
+
+  return '<div class="card">'
+    +'<div class="card-title"><span class="icon">🛠</span>Mosaic Core Reading Platform</div>'
+    +'<div class="q-sub" style="margin-bottom:0.75rem">For each product module, specify the target end-state and rate your confidence in our ability to deliver it.</div>'
+    +infoBox
+    +moduleCards
+    +'</div>';
+}
+
+function section3(){
+  function ideaCard(idea,attrKey,diffKey,repKey,color){
+    return '<div class="sub-card '+color+'">'
+      +'<div class="sub-card-title">'+idea.name+'</div>'
+      +'<div class="sub-card-desc"><strong>Description:</strong> '+idea.desc+'</div>'
+      +'<div class="sub-card-value"><strong>Value to customer:</strong> '+idea.value+'</div>'
+      +'<div class="rating-item"><span class="rating-item-label">Attractiveness for customer / willingness to pay</span>'
+      +'<div class="rating-btns">'+ATTRACT_LABELS.map(function(lbl,j){
+        var sel=g(attrKey)===j+1?" sel":""; var err=isErr(attrKey)&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+attrKey+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div></div>'
+      +'<div class="rating-item"><span class="rating-item-label">Difficulty to build for current Mosaic team</span>'
+      +'<div class="rating-btns">'+DIFF_LABELS.map(function(lbl,j){
+        var sel=g(diffKey)===j+1?" sel":""; var err=isErr(diffKey)&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+diffKey+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div></div>'
+      +'<div class="rating-item"><span class="rating-item-label">Difficulty for a competitor to replicate</span>'
+      +'<div class="rating-btns">'+REP_LABELS.map(function(lbl,j){
+        var sel=g(repKey)===j+1?" sel":""; var err=isErr(repKey)&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+repKey+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div></div>'
+      +'</div>';
+  }
+
+  var vertCards=VERT_IDEAS.map(function(idea,i){ return ideaCard(idea,"vert_attr_"+i,"vert_diff_"+i,"vert_rep_"+i,VERT_COLORS[i%VERT_COLORS.length]); }).join("");
+  var horizCards=HORIZ_IDEAS.map(function(idea,i){ return ideaCard(idea,"horiz_attr_"+i,"horiz_diff_"+i,"horiz_rep_"+i,HORIZ_COLORS[i%HORIZ_COLORS.length]); }).join("");
+  var capErr=isErr("capacity");
+
+  return '<div class="card">'
+    +'<div class="card-title green"><span class="icon">💡</span>Vertical product ideas — expansion within Radiology</div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness, build difficulty, and difficulty for a competitor to replicate.</div>'
+    +vertCards+'</div>'
+    +'<div class="card">'
+    +'<div class="card-title gold"><span class="icon">🌐</span>Horizontal product ideas — expansion beyond Radiology</div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness, build difficulty, and difficulty for a competitor to replicate.</div>'
+    +horizCards+'</div>'
+    +'<div class="card">'
+    +'<div class="card-title purple"><span class="icon">⚡</span>Capacity &amp; Other Ideas</div>'
+    +'<div class="question"><div class="q-label">With our current capacity, how many new ideas can we take on in the next 12 months?</div>'
+    +'<div class="rating-btns">'+CAPACITY_LABELS.map(function(lbl,j){
+      var sel=g("capacity",-1)===j?" sel":"";
+      var err=capErr&&!sel?" field-error":"";
+      return '<button type="button" class="rBtn'+sel+err+'" onclick="setCap('+j+')">'+lbl+'</button>';
+    }).join("")+'</div></div>'
+    +'<div class="question"><div class="q-label">Any other product ideas? <span class="optional-tag">(optional)</span></div>'
+    +ta("other_ideas","Other vertical or horizontal product ideas...",true)
+    +'</div></div>';
+}
+
+function section4(){
+  var advCards=COMP_ADVS.map(function(adv,i){
+    return '<div class="sub-card">'
+      +'<div class="sub-card-title">'+adv.name+'</div>'
+      +'<div class="sub-card-desc">'+adv.desc+'</div>'
+      +'<div class="rating-item"><span class="rating-item-label">Importance to Mosaic\'s success</span>'
+      +'<div class="rating-btns">'+IMP_LABELS.map(function(lbl,j){
+        var sel=g("cadv_imp_"+i)===j+1?" sel":""; var err=isErr("cadv_imp_"+i)&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'cadv_imp_'+i+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div></div>'
+      +'<div class="rating-item"><span class="rating-item-label">Our current performance</span>'
+      +'<div class="rating-btns">'+PERF_LABELS.map(function(lbl,j){
+        var sel=g("cadv_perf_"+i)===j+1?" sel":""; var err=isErr("cadv_perf_"+i)&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'cadv_perf_'+i+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div></div>'
+      +'</div>';
+  }).join("");
+
+  return '<div class="card">'
+    +'<div class="card-title pink"><span class="icon">🏆</span>Competitive Advantage</div>'
+    +'<div class="question"><div class="q-label">Who are our largest competitors and why?</div>'
+    +ta("comp_competitors","Name competitors and explain...")+'</div>'
+    +'<div class="q-label" style="margin-bottom:1rem">For each of the following competitive advantages, rate how important it is to Mosaic\'s success and our current performance:</div>'
+    +advCards
+    +'<div class="question" style="margin-top:1rem"><div class="q-sub">Any competitive advantages we\'re missing? <span class="optional-tag">(optional)</span></div>'
+    +ta("comp_other","Other competitive advantages...",true)+'</div>'
+    +'</div>'
+    +'<div class="card">'
+    +'<div class="card-title orange"><span class="icon">🌴</span>Final Question</div>'
+    +'<div class="question"><div class="q-label">What is the one thing you don\'t want to leave Florida without discussing?</div>'
+    +ta("florida_question","Your answer...")+'</div>'
+    +'</div>';
+}
+
+/* ────────── Render ────────── */
+
+function renderSurvey(){
+  var fns=[section0,section1,section2,section3,section4];
+  var isLast=state.section===SECTIONS.length-1;
+  var steps=SECTIONS.map(function(_,i){
+    var cls=i<state.section?"done":(i===state.section?"active":"");
+    return '<div class="progress-step '+cls+'"></div>';
+  }).join("");
+  var valBanner="";
+  if(state.errors.length){
+    var items=state.errors.slice(0,8).map(function(k){return '<li>'+friendlyLabel(k)+'</li>';}).join("");
+    var more=state.errors.length>8?'<li>...and '+(state.errors.length-8)+' more</li>':"";
+    valBanner='<div class="val-banner">Please complete the following before submitting:<ul>'+items+more+'</ul></div>';
+  }
+  var submitBtn=isLast
+    ?'<button type="button" class="btn primary" onclick="submitSurvey()" '+(state.submitting?"disabled":"")+'>'+
+      (state.submitting?'<span class="spinner"></span> Submitting...':'Submit survey')+'</button>'
+    :'<button type="button" class="btn primary" onclick="nextSection()">Next →</button>';
+
+  return '<div class="progress-wrap">'
+    +'<div class="progress-steps">'+steps+'</div>'
+    +'<div class="progress-label">Section '+(state.section+1)+' of '+SECTIONS.length+' — <strong>'+SECTIONS[state.section]+'</strong></div>'
+    +'</div>'+valBanner+fns[state.section]()
+    +'<div class="nav-row">'
+    +'<button type="button" class="btn" onclick="prevSection()" '+(state.section===0?"disabled":"")+'>← Back</button>'
+    +submitBtn+'</div>';
+}
+
+function renderDashboard(){
+  if(state.resultsLoading) return '<div class="loading"><span class="spinner"></span>Loading responses...</div>';
+  var all=state.resultsData||[];
+  if(!all.length) return '<div class="no-resp" style="padding:2rem;text-align:center">No responses submitted yet.</div>';
+  var latest=new Date(all[all.length-1].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  var names=all.map(function(r,i){ var fn=r.answers.first_name||""; var ln=r.answers.last_name||""; return (fn||ln)?(fn+" "+ln).trim():"Respondent "+(i+1); });
+
+  function openText(key,label){
+    var entries=all.map(function(r,i){ return r.answers[key]?'<div class="resp-item"><strong>'+names[i]+':</strong> '+r.answers[key]+'</div>':""; }).join("");
     return '<div class="dash-card"><h3>'+label+'</h3>'+(entries||"<div class='no-resp'>No responses yet</div>")+'</div>';
   }
-  function barChart(title, items, keyFn) {
+  function barChart(title,items,keyFn,maxScale){
+    maxScale=maxScale||5;
     return '<div class="dash-card"><h3>'+title+'</h3>'+items.map(function(item,i){
-      var a = avg(all, keyFn(i));
+      var a=avg(all,keyFn(i));
       return '<div class="bar-row"><span class="bar-label">'+item+'</span><span class="bar-val">'+a+'</span>'
-        +'<div class="bar-track"><div class="bar-fill" style="width:'+(a==="—"?0:Math.round(parseFloat(a)/5*100))+'%"></div></div></div>';
+        +'<div class="bar-track"><div class="bar-fill" style="width:'+(a==="—"?0:Math.round(parseFloat(a)/maxScale*100))+'%"></div></div></div>';
     }).join("")+'</div>';
-  }
-  function moduleOpenText(keyPrefix, label) {
-    return '<div class="dash-card"><h3>'+label+'</h3>'
-      +MODULES.map(function(m,i){
-        return '<div style="margin-bottom:1rem">'
-          +'<div style="font-size:13px;font-weight:500;margin-bottom:4px">'+m+'</div>'
-          +(all.map(function(r,ri){ return r.answers[keyPrefix+i]?'<div class="resp-item"><strong>'+names[ri]+':</strong> '+r.answers[keyPrefix+i]+'</div>':""; }).join("")||"<div class='no-resp'>No responses</div>")
-          +'</div>';
-      }).join("")+'</div>';
-  }
-  function advOpenText(keyPrefix, label) {
-    return '<div class="dash-card"><h3>'+label+'</h3>'
-      +COMP_ADVS.map(function(adv,i){
-        return '<div style="margin-bottom:1rem">'
-          +'<div style="font-size:13px;font-weight:500;margin-bottom:4px">'+adv+'</div>'
-          +(all.map(function(r,ri){ return r.answers[keyPrefix+i]?'<div class="resp-item"><strong>'+names[ri]+':</strong> '+r.answers[keyPrefix+i]+'</div>':""; }).join("")||"<div class='no-resp'>No responses</div>")
-          +'</div>';
-      }).join("")+'</div>';
   }
 
   return '<div class="stat-row">'
     +'<div class="stat"><div class="stat-val">'+all.length+'</div><div class="stat-lbl">Total responses</div></div>'
     +'<div class="stat"><div class="stat-val">'+latest+'</div><div class="stat-lbl">Latest submission</div></div>'
     +'</div>'
-    +'<div class="dash-card"><h3>Respondents</h3>'
-    +names.map(function(n,i){ return '<div class="resp-item">'+n+' <span style="color:var(--text-secondary);font-size:12px">— '+new Date(all[i].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric"})+'</span></div>'; }).join("")
-    +'</div>'
-    +openText("mission_impact","Mission — impact statements")
-    +openText("mission_statement","Mission — mission statements")
-    +barChart("Customer importance — next 18 months (avg)", CUSTOMERS, function(i){ return "c18_"+i; })
-    +barChart("Customer importance — by 2030 (avg)", CUSTOMERS, function(i){ return "c30_"+i; })
-    +barChart("Module end-state target (avg, 1–4 scale)", MODULES, function(i){ return "mod_es_"+i; })
-    +barChart("Module delivery confidence (avg)", MODULES, function(i){ return "mod_conf_"+i; })
-    +moduleOpenText("mod_desc_","Module 2030 end-state descriptions")
-    +moduleOpenText("mod_comp_","Competitors mentioned per module")
-    +barChart("Vertical ideas — attractiveness (avg)", VERT_IDEAS, function(i){ return "vert_attr_"+i; })
-    +barChart("Vertical ideas — build difficulty (avg)", VERT_IDEAS, function(i){ return "vert_diff_"+i; })
-    +barChart("Vertical ideas — competitor replication difficulty (avg)", VERT_IDEAS, function(i){ return "vert_rep_"+i; })
-    +barChart("Horizontal ideas — attractiveness (avg)", HORIZ_IDEAS, function(i){ return "horiz_attr_"+i; })
-    +barChart("Horizontal ideas — build difficulty (avg)", HORIZ_IDEAS, function(i){ return "horiz_diff_"+i; })
-    +barChart("Horizontal ideas — competitor replication difficulty (avg)", HORIZ_IDEAS, function(i){ return "horiz_rep_"+i; })
-    +barChart("Competitive advantage — importance (avg)", COMP_ADVS, function(i){ return "cadv_imp_"+i; })
-    +barChart("Competitive advantage — ease of replication (avg)", COMP_ADVS, function(i){ return "cadv_ease_"+i; })
-    +barChart("Competitive advantage — current performance (avg)", COMP_ADVS, function(i){ return "cadv_perf_"+i; })
-    +advOpenText("cadv_raise_","How to improve each competitive advantage")
+    +'<div class="dash-card"><h3>Respondents</h3>'+names.map(function(n,i){ return '<div class="resp-item">'+n+' <span style="color:var(--text-light);font-size:12px">— '+new Date(all[i].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric"})+'</span></div>'; }).join("")+'</div>'
+    +openText("mission_combined","Mission statements")
+    +barChart("Customer importance — within 18 months (avg)",CUSTOMERS,function(i){return"c18_"+i;},4)
+    +barChart("Customer importance — by 2030 (avg)",CUSTOMERS,function(i){return"c30_"+i;},4)
+    +openText("cust_other","Other potential customers mentioned")
+    +barChart("Module end-state target (avg, 1–4 scale)",MODULES,function(i){return"mod_es_"+i;},4)
+    +barChart("Module delivery confidence (avg, 1–4)",MODULES,function(i){return"mod_conf_"+i;},4)
+    +barChart("Vertical ideas — attractiveness (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_attr_"+i;})
+    +barChart("Vertical ideas — build difficulty (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_diff_"+i;})
+    +barChart("Vertical ideas — competitor replication difficulty (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_rep_"+i;})
+    +barChart("Horizontal ideas — attractiveness (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_attr_"+i;})
+    +barChart("Horizontal ideas — build difficulty (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_diff_"+i;})
+    +barChart("Horizontal ideas — competitor replication difficulty (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_rep_"+i;})
+    +barChart("Competitive advantage — importance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_imp_"+i;},4)
+    +barChart("Competitive advantage — current performance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_perf_"+i;})
     +openText("comp_competitors","Largest competitors")
-    +openText("success_keys","Keys to 2030 success")
-    +openText("fail_reasons","Reasons for potential failure")
-    +openText("vert_other","Other vertical ideas")
-    +openText("horiz_other","Other horizontal ideas")
+    +openText("other_ideas","Other product ideas")
     +openText("comp_other","Other competitive advantages")
-    +'<div style="margin-top:1.5rem;text-align:center"><button class="btn" onclick="loadResults()">Refresh results</button></div>';
+    +openText("florida_question","What not to leave Florida without discussing")
+    +'<div style="margin-top:1.5rem;text-align:center"><button class="btn" onclick="loadResults()">↻ Refresh results</button></div>';
 }
 
-function render() {
-  var app = document.getElementById("app");
-
-  if(state.view==="gate") {
-    app.innerHTML='<div class="gate">'
-      +'<div><div class="gate-logo">MOSAIC</div><h1>Strategy Workshop Survey</h1><p style="margin-top:0.5rem">Enter the password to continue</p></div>'
+function render(){
+  var app=document.getElementById("app");
+  if(state.view==="gate"){
+    app.innerHTML='<div class="gate"><div class="gate-card">'
+      +'<div class="gate-logo">Mosaic</div><h1>Strategy Workshop</h1>'
+      +'<p>Enter the password to continue</p>'
       +'<input type="password" id="pw" placeholder="Password" onkeydown="if(event.key===\'Enter\')checkPw()">'
       +'<div class="err" id="pw-err"></div>'
-      +'<button class="btn primary" onclick="checkPw()">Continue</button>'
-      +'</div>';
+      +'<button class="btn primary" onclick="checkPw()" style="width:100%">Continue →</button>'
+      +'</div></div>';
     return;
   }
-
-  if(state.view==="done") {
-    app.innerHTML='<div class="submitted">'
-      +'<div class="gate-logo" style="margin-bottom:1rem">MOSAIC</div>'
-      +'<h2>Thank you</h2><p>Your responses have been recorded.</p>'
-      +'</div>';
+  if(state.view==="done"){
+    app.innerHTML='<div class="submitted"><div class="check">✅</div><h2>Thank you!</h2><p>Your responses have been recorded.</p></div>';
     return;
   }
-
-  app.innerHTML='<div class="header">'
-    +'<div class="header-logo">MOSAIC · Strategy Workshop</div>'
+  app.innerHTML='<div class="survey-header">'
+    +'<div class="header-logo">Mosaic · Strategy Workshop 2025</div>'
     +'<div class="tabs">'
     +'<button class="tab'+(state.tab==="survey"?" active":"")+'" onclick="switchTab(\'survey\')">Survey</button>'
     +'<button class="tab'+(state.tab==="results"?" active":"")+'" onclick="switchTab(\'results\')">Results</button>'
     +'</div></div>'
-    +(state.tab==="survey" ? renderSurvey() : '<div>'+renderDashboard()+'</div>');
+    +(state.tab==="survey"?renderSurvey():'<div>'+renderDashboard()+'</div>');
 }
 
-window.sv = sv;
-window.setR = function(k,v){ state.answers[k]=v; render(); };
-window.prev = function(){ state.section=Math.max(0,state.section-1); render(); window.scrollTo(0,0); };
-window.next = function(){ state.section=Math.min(SECTIONS.length-1,state.section+1); render(); window.scrollTo(0,0); };
-
-window.submitSurvey = async function(){
+window.sv=sv;
+window.setR=function(k,v){ state.answers[k]=v; state.errors=state.errors.filter(function(e){return e!==k;}); render(); };
+window.setCap=function(v){ state.answers["capacity"]=v; state.errors=state.errors.filter(function(e){return e!=="capacity";}); render(); };
+window.prevSection=function(){ state.section=Math.max(0,state.section-1); state.errors=[]; render(); window.scrollTo(0,0); };
+window.nextSection=function(){ state.errors=[]; state.section=Math.min(SECTIONS.length-1,state.section+1); render(); window.scrollTo(0,0); };
+window.submitSurvey=async function(){
+  var missing=getMissing();
+  if(missing.length){ state.errors=missing; render(); window.scrollTo(0,0); return; }
   state.submitting=true; render();
-  try {
-    await saveToSupabase();
-    state.view="done"; render();
-  } catch(e) {
-    state.submitting=false;
-    alert("There was an error submitting your response. Please check your connection and try again.\n\n"+e.message);
-    render();
-  }
+  try{ await saveToSupabase(); state.view="done"; render(); }
+  catch(e){ state.submitting=false; alert("Error submitting. Please try again.\n\n"+e.message); render(); }
 };
-
-window.loadResults = async function(){
+window.loadResults=async function(){
   state.resultsLoading=true; render();
-  try {
-    state.resultsData = await fetchResponses();
-  } catch(e) {
-    alert("Could not load results: "+e.message);
-  }
+  try{ state.resultsData=await fetchResponses(); }
+  catch(e){ alert("Could not load results: "+e.message); }
   state.resultsLoading=false; render();
 };
-
-window.switchTab = function(t){
-  if(t==="results" && !state.resultsAuthed) {
-    var pw = prompt("Enter the admin password to view results:");
+window.switchTab=function(t){
+  if(t==="results"&&!state.resultsAuthed){
+    var pw=prompt("Enter the admin password to view results:");
     if(pw===RESULTS_PASS){ state.resultsAuthed=true; state.tab=t; loadResults(); }
-    else { alert("Incorrect admin password."); }
+    else if(pw!==null){ alert("Incorrect admin password."); }
     return;
   }
   state.tab=t;
-  if(t==="results" && !state.resultsData) loadResults();
+  if(t==="results"&&!state.resultsData) loadResults();
   else render();
 };
-
-window.checkPw = function(){
-  var v = document.getElementById("pw").value;
+window.checkPw=function(){
+  var v=document.getElementById("pw").value;
   if(v===SURVEY_PASS){ state.view="survey"; render(); }
   else if(v===RESULTS_PASS){ state.view="survey"; state.resultsAuthed=true; state.tab="results"; render(); loadResults(); }
-  else { document.getElementById("pw-err").textContent="Incorrect password. Please try again."; }
+  else{ document.getElementById("pw-err").textContent="Incorrect password. Please try again."; }
 };
 
 render();
 </script>
+</body>
+</html>
 
-
-</body></html>
