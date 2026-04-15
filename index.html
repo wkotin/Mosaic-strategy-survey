@@ -37,7 +37,6 @@
   }
   body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg-page); color: var(--text); font-size: 15px; line-height: 1.6; min-height: 100vh; }
   .app { max-width: 820px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
-
   .gate { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; }
   .gate-card { background: var(--bg); border-radius: var(--radius-lg); padding: 2.5rem 2rem; box-shadow: 0 4px 24px rgba(0,0,0,0.08); width: 100%; max-width: 380px; display: flex; flex-direction: column; align-items: center; gap: 1rem; text-align: center; }
   .gate-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; }
@@ -46,19 +45,16 @@
   .gate input[type=password] { width: 100%; padding: 11px 14px; font-size: 15px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
   .gate input[type=password]:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.12); }
   .err { font-size: 13px; color: var(--red); min-height: 18px; }
-
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 26px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg); color: var(--text); cursor: pointer; font-size: 14px; font-family: inherit; font-weight: 500; transition: all 0.15s; }
   .btn:hover { background: var(--bg-secondary); border-color: var(--accent); }
   .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
   .btn.primary:hover { background: #144d8e; }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
   .survey-header { background: var(--bg); border-radius: var(--radius-lg); padding: 1rem 1.5rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 8px; }
   .header-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; }
   .tabs { display: flex; background: var(--bg-secondary); border-radius: var(--radius); padding: 3px; gap: 2px; }
   .tab { padding: 6px 18px; font-size: 13px; cursor: pointer; border: none; background: none; color: var(--text-secondary); font-family: inherit; font-weight: 500; border-radius: 6px; transition: all 0.15s; }
   .tab.active { background: var(--bg); color: var(--accent); box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
-
   .progress-wrap { background: var(--bg); border-radius: var(--radius-lg); padding: 1rem 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
   .progress-steps { display: flex; gap: 6px; margin-bottom: 0.6rem; }
   .progress-step { flex: 1; height: 5px; border-radius: 3px; background: var(--border); transition: background 0.3s; }
@@ -66,21 +62,19 @@
   .progress-step.active { background: #93b8de; }
   .progress-label { font-size: 13px; color: var(--text-secondary); }
   .progress-label strong { color: var(--text); }
-
   .card { background: var(--bg); border-radius: var(--radius-lg); padding: 1.75rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
   .card-title { font-size: 17px; font-weight: 600; color: var(--accent); margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--accent-light); display: flex; align-items: center; gap: 8px; }
-  .card-title.green { color: var(--green); border-bottom-color: var(--green-light); }
-  .card-title.gold  { color: var(--gold);  border-bottom-color: var(--gold-light); }
-  .card-title.purple{ color: var(--purple);border-bottom-color: var(--purple-light); }
-  .card-title.orange{ color: var(--orange);border-bottom-color: var(--orange-light); }
-  .card-title.pink  { color: var(--pink);  border-bottom-color: var(--pink-light); }
+  .card-title.green  { color: var(--green);  border-bottom-color: var(--green-light); }
+  .card-title.gold   { color: var(--gold);   border-bottom-color: var(--gold-light); }
+  .card-title.purple { color: var(--purple); border-bottom-color: var(--purple-light); }
+  .card-title.orange { color: var(--orange); border-bottom-color: var(--orange-light); }
+  .card-title.pink   { color: var(--pink);   border-bottom-color: var(--pink-light); }
   .card-title .icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--accent-light); }
   .card-title.green  .icon { background: var(--green-light); }
   .card-title.gold   .icon { background: var(--gold-light); }
   .card-title.purple .icon { background: var(--purple-light); }
   .card-title.orange .icon { background: var(--orange-light); }
   .card-title.pink   .icon { background: var(--pink-light); }
-
   .question { margin-bottom: 1.75rem; }
   .question:last-child { margin-bottom: 0; }
   .q-label { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
@@ -89,7 +83,9 @@
   textarea { width: 100%; padding: 11px 13px; font-size: 14px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.6; transition: border 0.15s, background 0.15s; }
   textarea:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.1); }
   textarea.field-error { border-color: var(--red); background: var(--red-light); }
-
+  input[type=text].single { width: 100%; padding: 11px 13px; font-size: 14px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); font-family: inherit; transition: border 0.15s, background 0.15s; }
+  input[type=text].single:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.1); }
+  input[type=text].single.field-error { border-color: var(--red); background: var(--red-light); }
   .rating-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
   .rating-item:last-child { border-bottom: none; }
   .rating-item-label { font-size: 13px; color: var(--text-secondary); flex: 1; min-width: 150px; padding-top: 6px; }
@@ -98,7 +94,6 @@
   .rBtn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
   .rBtn.sel { background: var(--accent); color: #fff; border-color: var(--accent); }
   .rBtn.field-error { border-color: var(--red) !important; background: var(--red-light) !important; }
-
   .sub-card { border-radius: var(--radius); padding: 1rem 1.25rem; margin-bottom: 0.75rem; border-left: 4px solid var(--accent); background: var(--accent-light); }
   .sub-card.green  { border-left-color: var(--green);  background: var(--green-light); }
   .sub-card.teal   { border-left-color: var(--teal);   background: var(--teal-light); }
@@ -109,28 +104,17 @@
   .sub-card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
   .sub-card-desc  { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; line-height: 1.5; }
   .sub-card-value { font-size: 12px; color: var(--green); font-weight: 500; margin-bottom: 0.75rem; line-height: 1.5; }
-
-  .name-fields { display: flex; gap: 10px; flex-wrap: wrap; }
-  .name-fields input { flex: 1; min-width: 130px; padding: 11px 13px; font-size: 14px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); font-family: inherit; }
-  .name-fields input:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.1); }
-  .name-fields input.field-error { border-color: var(--red); background: var(--red-light); }
-
   .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
-
   .val-banner { background: var(--red-light); border: 1.5px solid var(--red); border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: var(--red); margin-bottom: 1rem; font-weight: 500; line-height: 1.6; }
   .val-banner ul { margin: 6px 0 0 16px; }
   .val-banner ul li { margin-bottom: 2px; }
-
   .submitted { text-align: center; padding: 5rem 1rem; background: var(--bg); border-radius: var(--radius-lg); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
   .submitted h2 { font-size: 26px; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; }
   .submitted p { color: var(--text-secondary); font-size: 15px; }
   .check { font-size: 48px; margin-bottom: 1rem; }
-
   .info-box { background: var(--accent-light); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 1.25rem; font-size: 13px; line-height: 1.8; color: var(--text-secondary); border-left: 3px solid var(--accent); }
   .info-box strong { color: var(--accent); }
-
   .optional-tag { font-weight: 400; color: var(--text-light); font-size: 13px; }
-
   .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .stat { background: var(--bg); border-radius: var(--radius); padding: 0.9rem 1.1rem; flex: 1; min-width: 100px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-top: 3px solid var(--accent); }
   .stat-val { font-size: 28px; font-weight: 700; color: var(--accent); }
@@ -150,7 +134,6 @@
   .loading { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 14px; }
   .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   @media (max-width: 600px) {
     .rating-item { flex-direction: column; }
     .rating-item-label { padding-top: 0; }
@@ -177,16 +160,12 @@ const CUSTOMERS = [
 
 const MODULES = [
   "Drafting","Reporting","Viewer","Worklist",
-  "InfoHub (Patient Jacket)","Cloud Native Archive / Streaming",
-  "Results Center (formerly CORE and VRAs)","Capture","Analytics"
+  "InfoHub","Cloud Native Archive / Streaming",
+  "Results Center (formerly CORE and VRAs)","Capture","Analytics",
+  "New Products (e.g., Medicine 3.0, products for health systems)"
 ];
 
-const END_STATE_LABELS = [
-  "1 — Table stakes",
-  "2 — Competitive parity",
-  "3 — Market leading",
-  "4 — Category defining"
-];
+const END_STATE_LABELS = ["Table Stakes","Competitive Parity","Market Leading","Category Defining"];
 
 const VERT_COLORS = ["green","teal","purple","orange","gold","pink","green","teal"];
 const VERT_IDEAS = [
@@ -225,12 +204,10 @@ const COMP_ADVS = [
   { name:"Radiology Partners Clinical Services flywheel", desc:"Mosaic makes our RP clinicians successful and vice versa — a self-reinforcing cycle between our reading platform, clinical insights, and customer success" }
 ];
 
-const CUST_LABELS    = ["Not important","Somewhat important","Important","Very important"];
-const CONF_LABELS    = ["Not confident","Somewhat confident","Confident","Very confident"];
-const ATTRACT_LABELS = ["Not attractive","Somewhat attractive","Moderately attractive","Attractive","Very attractive"];
-const DIFF_LABELS    = ["Very easy","Easy","Moderate","Difficult","Very difficult"];
-const REP_LABELS     = ["Very easy","Easy","Moderate","Difficult","Very difficult"];
-const IMP_LABELS     = ["Not important","Somewhat important","Important","Very important"];
+const CUST_LABELS    = ["Not at all important","Slightly important","Moderately important","Important","Very important"];
+const ATTRACT_LABELS = ["Not attractive","Somewhat attractive","Moderately attractive","Attractive","Very attractive","Not sure"];
+const DIFF_LABELS    = ["Very easy","Easy","Moderate","Difficult","Very difficult","Not sure"];
+const IMP_LABELS     = ["Not at all important","Slightly important","Moderately important","Important","Very important"];
 const PERF_LABELS    = ["Very weak","Weak","Moderate","Strong","Very strong"];
 const CAPACITY_LABELS= ["0 — No capacity","1 — One new idea","2 — Two new ideas","3 — Three new ideas","4+ — Four or more"];
 
@@ -254,10 +231,10 @@ function avg(all,key){
 }
 function isErr(k){ return state.errors.indexOf(k)>=0; }
 
-function rBtns(key,labels,isIndexed){
+function rBtns(key,labels){
   return labels.map(function(lbl,j){
-    var val=isIndexed?j:j+1;
-    var cur=g(key,isIndexed?-1:0);
+    var val=j+1;
+    var cur=g(key,0);
     var sel=cur===val?" sel":"";
     var err=isErr(key)&&!sel?" field-error":"";
     return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+key+'\','+val+')">'+lbl+'</button>';
@@ -269,18 +246,18 @@ function ta(key,ph,optional){
   var errCls=(!optional&&isErr(key))?" field-error":"";
   return '<textarea id="ta_'+key+'" class="'+errCls+'" placeholder="'+ph+'" oninput="sv(\''+key+'\',this.value)">'+g(key)+'</textarea>';
 }
-function nameInput(key,ph){
-  var errCls=isErr(key)?" field-error":"";
-  return '<input id="inp_'+key+'" type="text" class="'+errCls+'" placeholder="'+ph+'" value="'+g(key)+'" oninput="sv(\''+key+'\',this.value)">';
+function singleInput(key,ph,optional){
+  var errCls=(!optional&&isErr(key))?" field-error":"";
+  return '<input type="text" class="single'+errCls+'" placeholder="'+(ph||"Your answer...")+'" value="'+g(key)+'" oninput="sv(\''+key+'\',this.value)">';
 }
 
 function getAllRequired(){
-  var req=["first_name","last_name","mission_combined"];
+  var req=["name","mission_combined"];
   CUSTOMERS.forEach(function(_,i){req.push("c18_"+i,"c30_"+i);});
-  MODULES.forEach(function(_,i){req.push("mod_es_"+i,"mod_conf_"+i);});
+  MODULES.forEach(function(_,i){req.push("mod_es_"+i);});
+  VERT_IDEAS.forEach(function(_,i){req.push("vert_attr_"+i,"vert_diff_"+i);});
+  HORIZ_IDEAS.forEach(function(_,i){req.push("horiz_attr_"+i,"horiz_diff_"+i);});
   req.push("capacity");
-  VERT_IDEAS.forEach(function(_,i){req.push("vert_attr_"+i,"vert_diff_"+i,"vert_rep_"+i);});
-  HORIZ_IDEAS.forEach(function(_,i){req.push("horiz_attr_"+i,"horiz_diff_"+i,"horiz_rep_"+i);});
   req.push("comp_competitors","florida_question");
   COMP_ADVS.forEach(function(_,i){req.push("cadv_imp_"+i,"cadv_perf_"+i);});
   return req;
@@ -294,35 +271,32 @@ function getMissing(){
   });
 }
 function friendlyLabel(k){
-  if(k==="first_name") return "First name (Section 1)";
-  if(k==="last_name") return "Last name (Section 1)";
+  if(k==="name") return "Your name (Section 1)";
   if(k==="mission_combined") return "Mosaic mission (Section 1)";
   if(k==="comp_competitors") return "Largest competitors (Section 5)";
   if(k==="florida_question") return "Florida question (Section 5)";
   if(k==="capacity") return "Capacity for new ideas (Section 4)";
   var m;
-  m=k.match(/^c18_(\d+)$/); if(m) return "18-month rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
+  m=k.match(/^c18_(\d+)$/); if(m) return "12-month rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
   m=k.match(/^c30_(\d+)$/); if(m) return "2030 rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
   m=k.match(/^mod_es_(\d+)$/);   if(m) return "End-state target — "+MODULES[+m[1]]+" (Section 3)";
-  m=k.match(/^mod_conf_(\d+)$/); if(m) return "Confidence — "+MODULES[+m[1]]+" (Section 3)";
   m=k.match(/^vert_attr_(\d+)$/); if(m) return "Attractiveness — "+VERT_IDEAS[+m[1]].name+" (Section 4)";
   m=k.match(/^vert_diff_(\d+)$/); if(m) return "Build difficulty — "+VERT_IDEAS[+m[1]].name+" (Section 4)";
-  m=k.match(/^vert_rep_(\d+)$/);  if(m) return "Competitor replication — "+VERT_IDEAS[+m[1]].name+" (Section 4)";
   m=k.match(/^horiz_attr_(\d+)$/); if(m) return "Attractiveness — "+HORIZ_IDEAS[+m[1]].name+" (Section 4)";
   m=k.match(/^horiz_diff_(\d+)$/); if(m) return "Build difficulty — "+HORIZ_IDEAS[+m[1]].name+" (Section 4)";
-  m=k.match(/^horiz_rep_(\d+)$/);  if(m) return "Competitor replication — "+HORIZ_IDEAS[+m[1]].name+" (Section 4)";
   m=k.match(/^cadv_imp_(\d+)$/);  if(m) return "Importance — "+COMP_ADVS[+m[1]].name+" (Section 5)";
   m=k.match(/^cadv_perf_(\d+)$/); if(m) return "Performance — "+COMP_ADVS[+m[1]].name+" (Section 5)";
   return k;
 }
 
-/* ────────── Sections ────────── */
+/* ── Sections ── */
 
 function section0(){
+  var nameErr=isErr("name")?" field-error":"";
   return '<div class="card">'
     +'<div class="card-title"><span class="icon">👤</span>About You</div>'
     +'<div class="question"><div class="q-label">Your name</div>'
-    +'<div class="name-fields">'+nameInput("first_name","First name")+nameInput("last_name","Last name")+'</div>'
+    +'<input type="text" class="single'+nameErr+'" placeholder="Full name" value="'+g("name")+'" oninput="sv(\'name\',this.value)">'
     +'</div></div>'
     +'<div class="card">'
     +'<div class="card-title"><span class="icon">🎯</span>Mosaic Mission</div>'
@@ -333,7 +307,7 @@ function section0(){
 }
 
 function section1(){
-  var rows18=CUSTOMERS.map(function(c,i){
+  var rows12=CUSTOMERS.map(function(c,i){
     return '<div class="rating-item"><span class="rating-item-label">'+c+'</span><div class="rating-btns">'+rBtns("c18_"+i,CUST_LABELS)+'</div></div>';
   }).join("");
   var rows30=CUSTOMERS.map(function(c,i){
@@ -342,51 +316,44 @@ function section1(){
   return '<div class="card">'
     +'<div class="card-title green"><span class="icon">🏥</span>Mosaic Customers</div>'
     +'<div class="q-sub" style="margin-bottom:1.25rem">Specify how important it is for Mosaic to serve the following customers:</div>'
-    +'<div class="question"><span class="q-underline">Within the next 18 months</span><div>'+rows18+'</div></div>'
-    +'<div class="question"><span class="q-underline">By 2030</span><div>'+rows30+'</div></div>'
-    +'<div class="question"><div class="q-label">Any other potential customers we are overlooking? <span class="optional-tag">(optional)</span></div>'
-    +ta("cust_other","Other customers we should consider...",true)
-    +'</div></div>';
+    +'<div class="question"><span class="q-underline">Within the next 12 months</span><div>'+rows12+'</div>'
+    +'<div style="margin-top:0.75rem"><div class="q-sub">Any other customer important to serve within the next 12 months? <span class="optional-tag">(optional)</span></div>'
+    +ta("cust_other_12","Other customers...",true)+'</div></div>'
+    +'<div class="question"><span class="q-underline">By 2030</span><div>'+rows30+'</div>'
+    +'<div style="margin-top:0.75rem"><div class="q-sub">Any other customer that is important to serve by 2030? <span class="optional-tag">(optional)</span></div>'
+    +ta("cust_other_30","Other customers...",true)+'</div></div>'
+    +'</div>';
 }
 
 function section2(){
   var infoBox='<div class="info-box">'
-    +'<strong>1 — Table stakes:</strong> Must-have features to be considered<br>'
-    +'<strong>2 — Competitive parity:</strong> No obvious gaps to 2–3 competitor alternatives<br>'
-    +'<strong>3 — Market leading:</strong> Measurably better on dimensions the market cares about / we win comparisons<br>'
-    +'<strong>4 — Category defining:</strong> Setting new standards for the market (rare, expensive, and usually only worth targeting on 1–2 features max)'
+    +'<strong>Table Stakes:</strong> Must-have features to be considered<br>'
+    +'<strong>Competitive Parity:</strong> No obvious gaps to 2–3 competitor alternatives<br>'
+    +'<strong>Market Leading:</strong> Measurably better on dimensions the market cares about / we win comparisons<br>'
+    +'<strong>Category Defining:</strong> Setting new standards for the market (rare, expensive, and usually only worth targeting on 1–2 features max)'
     +'</div>';
 
   var moduleCards=MODULES.map(function(m,i){
     var esErr=isErr("mod_es_"+i);
-    var cfErr=isErr("mod_conf_"+i);
     return '<div class="sub-card" style="background:#f8faff;border-left-color:var(--accent)">'
       +'<div class="sub-card-title">'+m+'</div>'
       +'<div class="q-sub" style="margin-top:8px">What is the target end-state for this module?</div>'
-      +'<div class="rating-btns" style="margin-bottom:1rem">'+END_STATE_LABELS.map(function(lbl,j){
+      +'<div class="rating-btns">'+END_STATE_LABELS.map(function(lbl,j){
         var sel=g("mod_es_"+i)===j+1?" sel":"";
         var err=esErr&&!sel?" field-error":"";
         return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'mod_es_'+i+'\','+(j+1)+')">'+lbl+'</button>';
-      }).join("")+'</div>'
-      +'<div class="q-sub">How confident are you in our team\'s ability to deliver this end-state at our "current course and speed"?</div>'
-      +'<div class="rating-btns">'+CONF_LABELS.map(function(lbl,j){
-        var sel=g("mod_conf_"+i)===j+1?" sel":"";
-        var err=cfErr&&!sel?" field-error":"";
-        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'mod_conf_'+i+'\','+(j+1)+')">'+lbl+'</button>';
       }).join("")+'</div>'
       +'</div>';
   }).join("");
 
   return '<div class="card">'
     +'<div class="card-title"><span class="icon">🛠</span>Mosaic Core Reading Platform</div>'
-    +'<div class="q-sub" style="margin-bottom:0.75rem">For each product module, specify the target end-state and rate your confidence in our ability to deliver it.</div>'
-    +infoBox
-    +moduleCards
-    +'</div>';
+    +'<div class="q-sub" style="margin-bottom:0.75rem">For each product module, specify the target end-state.</div>'
+    +infoBox+moduleCards+'</div>';
 }
 
 function section3(){
-  function ideaCard(idea,attrKey,diffKey,repKey,color){
+  function ideaCard(idea,attrKey,diffKey,color){
     return '<div class="sub-card '+color+'">'
       +'<div class="sub-card-title">'+idea.name+'</div>'
       +'<div class="sub-card-desc"><strong>Description:</strong> '+idea.desc+'</div>'
@@ -401,37 +368,48 @@ function section3(){
         var sel=g(diffKey)===j+1?" sel":""; var err=isErr(diffKey)&&!sel?" field-error":"";
         return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+diffKey+'\','+(j+1)+')">'+lbl+'</button>';
       }).join("")+'</div></div>'
-      +'<div class="rating-item"><span class="rating-item-label">Difficulty for a competitor to replicate</span>'
-      +'<div class="rating-btns">'+REP_LABELS.map(function(lbl,j){
-        var sel=g(repKey)===j+1?" sel":""; var err=isErr(repKey)&&!sel?" field-error":"";
-        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+repKey+'\','+(j+1)+')">'+lbl+'</button>';
-      }).join("")+'</div></div>'
       +'</div>';
   }
 
-  var vertCards=VERT_IDEAS.map(function(idea,i){ return ideaCard(idea,"vert_attr_"+i,"vert_diff_"+i,"vert_rep_"+i,VERT_COLORS[i%VERT_COLORS.length]); }).join("");
-  var horizCards=HORIZ_IDEAS.map(function(idea,i){ return ideaCard(idea,"horiz_attr_"+i,"horiz_diff_"+i,"horiz_rep_"+i,HORIZ_COLORS[i%HORIZ_COLORS.length]); }).join("");
+  var vertCards=VERT_IDEAS.map(function(idea,i){ return ideaCard(idea,"vert_attr_"+i,"vert_diff_"+i,VERT_COLORS[i%VERT_COLORS.length]); }).join("");
+  var horizCards=HORIZ_IDEAS.map(function(idea,i){ return ideaCard(idea,"horiz_attr_"+i,"horiz_diff_"+i,HORIZ_COLORS[i%HORIZ_COLORS.length]); }).join("");
   var capErr=isErr("capacity");
+
+  var otherIdea='<div class="card">'
+    +'<div class="card-title teal" style="color:var(--teal);border-bottom-color:var(--teal-light)"><span class="icon" style="background:var(--teal-light)">✏️</span>Other Idea <span class="optional-tag" style="font-size:13px;font-weight:400;margin-left:4px">(optional)</span></div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">Have an idea not listed above? Describe it and rate it below.</div>'
+    +'<div class="question"><div class="q-label">Describe your idea</div>'
+    +ta("other_idea_desc","Describe the product idea...",true)+'</div>'
+    +'<div class="rating-item"><span class="rating-item-label">Attractiveness for customer / willingness to pay</span>'
+    +'<div class="rating-btns">'+ATTRACT_LABELS.map(function(lbl,j){
+      var sel=g("other_attr")===j+1?" sel":"";
+      return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'other_attr\','+(j+1)+')">'+lbl+'</button>';
+    }).join("")+'</div></div>'
+    +'<div class="rating-item" style="border-bottom:none"><span class="rating-item-label">Difficulty to build for current Mosaic team</span>'
+    +'<div class="rating-btns">'+DIFF_LABELS.map(function(lbl,j){
+      var sel=g("other_diff")===j+1?" sel":"";
+      return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'other_diff\','+(j+1)+')">'+lbl+'</button>';
+    }).join("")+'</div></div>'
+    +'</div>';
 
   return '<div class="card">'
     +'<div class="card-title green"><span class="icon">💡</span>Vertical product ideas — expansion within Radiology</div>'
-    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness, build difficulty, and difficulty for a competitor to replicate.</div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness and build difficulty.</div>'
     +vertCards+'</div>'
     +'<div class="card">'
     +'<div class="card-title gold"><span class="icon">🌐</span>Horizontal product ideas — expansion beyond Radiology</div>'
-    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness, build difficulty, and difficulty for a competitor to replicate.</div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness and build difficulty.</div>'
     +horizCards+'</div>'
+    +otherIdea
     +'<div class="card">'
-    +'<div class="card-title purple"><span class="icon">⚡</span>Capacity &amp; Other Ideas</div>'
+    +'<div class="card-title purple"><span class="icon">⚡</span>Capacity</div>'
     +'<div class="question"><div class="q-label">With our current capacity, how many new ideas can we take on in the next 12 months?</div>'
     +'<div class="rating-btns">'+CAPACITY_LABELS.map(function(lbl,j){
       var sel=g("capacity",-1)===j?" sel":"";
       var err=capErr&&!sel?" field-error":"";
       return '<button type="button" class="rBtn'+sel+err+'" onclick="setCap('+j+')">'+lbl+'</button>';
     }).join("")+'</div></div>'
-    +'<div class="question"><div class="q-label">Any other product ideas? <span class="optional-tag">(optional)</span></div>'
-    +ta("other_ideas","Other vertical or horizontal product ideas...",true)
-    +'</div></div>';
+    +'</div>';
 }
 
 function section4(){
@@ -468,15 +446,10 @@ function section4(){
     +'</div>';
 }
 
-/* ────────── Render ────────── */
-
 function renderSurvey(){
   var fns=[section0,section1,section2,section3,section4];
   var isLast=state.section===SECTIONS.length-1;
-  var steps=SECTIONS.map(function(_,i){
-    var cls=i<state.section?"done":(i===state.section?"active":"");
-    return '<div class="progress-step '+cls+'"></div>';
-  }).join("");
+  var steps=SECTIONS.map(function(_,i){ var cls=i<state.section?"done":(i===state.section?"active":""); return '<div class="progress-step '+cls+'"></div>'; }).join("");
   var valBanner="";
   if(state.errors.length){
     var items=state.errors.slice(0,8).map(function(k){return '<li>'+friendlyLabel(k)+'</li>';}).join("");
@@ -487,14 +460,11 @@ function renderSurvey(){
     ?'<button type="button" class="btn primary" onclick="submitSurvey()" '+(state.submitting?"disabled":"")+'>'+
       (state.submitting?'<span class="spinner"></span> Submitting...':'Submit survey')+'</button>'
     :'<button type="button" class="btn primary" onclick="nextSection()">Next →</button>';
-
   return '<div class="progress-wrap">'
     +'<div class="progress-steps">'+steps+'</div>'
     +'<div class="progress-label">Section '+(state.section+1)+' of '+SECTIONS.length+' — <strong>'+SECTIONS[state.section]+'</strong></div>'
     +'</div>'+valBanner+fns[state.section]()
-    +'<div class="nav-row">'
-    +'<button type="button" class="btn" onclick="prevSection()" '+(state.section===0?"disabled":"")+'>← Back</button>'
-    +submitBtn+'</div>';
+    +'<div class="nav-row"><button type="button" class="btn" onclick="prevSection()" '+(state.section===0?"disabled":"")+'>← Back</button>'+submitBtn+'</div>';
 }
 
 function renderDashboard(){
@@ -502,14 +472,14 @@ function renderDashboard(){
   var all=state.resultsData||[];
   if(!all.length) return '<div class="no-resp" style="padding:2rem;text-align:center">No responses submitted yet.</div>';
   var latest=new Date(all[all.length-1].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
-  var names=all.map(function(r,i){ var fn=r.answers.first_name||""; var ln=r.answers.last_name||""; return (fn||ln)?(fn+" "+ln).trim():"Respondent "+(i+1); });
+  var names=all.map(function(r,i){ var n=r.answers.name||""; return n||"Respondent "+(i+1); });
 
   function openText(key,label){
     var entries=all.map(function(r,i){ return r.answers[key]?'<div class="resp-item"><strong>'+names[i]+':</strong> '+r.answers[key]+'</div>':""; }).join("");
     return '<div class="dash-card"><h3>'+label+'</h3>'+(entries||"<div class='no-resp'>No responses yet</div>")+'</div>';
   }
   function barChart(title,items,keyFn,maxScale){
-    maxScale=maxScale||5;
+    maxScale=maxScale||6;
     return '<div class="dash-card"><h3>'+title+'</h3>'+items.map(function(item,i){
       var a=avg(all,keyFn(i));
       return '<div class="bar-row"><span class="bar-label">'+item+'</span><span class="bar-val">'+a+'</span>'
@@ -523,21 +493,19 @@ function renderDashboard(){
     +'</div>'
     +'<div class="dash-card"><h3>Respondents</h3>'+names.map(function(n,i){ return '<div class="resp-item">'+n+' <span style="color:var(--text-light);font-size:12px">— '+new Date(all[i].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric"})+'</span></div>'; }).join("")+'</div>'
     +openText("mission_combined","Mission statements")
-    +barChart("Customer importance — within 18 months (avg)",CUSTOMERS,function(i){return"c18_"+i;},4)
-    +barChart("Customer importance — by 2030 (avg)",CUSTOMERS,function(i){return"c30_"+i;},4)
-    +openText("cust_other","Other potential customers mentioned")
+    +barChart("Customer importance — within 12 months (avg)",CUSTOMERS,function(i){return"c18_"+i;},5)
+    +barChart("Customer importance — by 2030 (avg)",CUSTOMERS,function(i){return"c30_"+i;},5)
+    +openText("cust_other_12","Other customers — next 12 months")
+    +openText("cust_other_30","Other customers — by 2030")
     +barChart("Module end-state target (avg, 1–4 scale)",MODULES,function(i){return"mod_es_"+i;},4)
-    +barChart("Module delivery confidence (avg, 1–4)",MODULES,function(i){return"mod_conf_"+i;},4)
     +barChart("Vertical ideas — attractiveness (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_attr_"+i;})
     +barChart("Vertical ideas — build difficulty (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_diff_"+i;})
-    +barChart("Vertical ideas — competitor replication difficulty (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_rep_"+i;})
     +barChart("Horizontal ideas — attractiveness (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_attr_"+i;})
     +barChart("Horizontal ideas — build difficulty (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_diff_"+i;})
-    +barChart("Horizontal ideas — competitor replication difficulty (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_rep_"+i;})
-    +barChart("Competitive advantage — importance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_imp_"+i;},4)
-    +barChart("Competitive advantage — current performance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_perf_"+i;})
+    +openText("other_idea_desc","Other ideas submitted")
+    +barChart("Competitive advantage — importance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_imp_"+i;},5)
+    +barChart("Competitive advantage — current performance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_perf_"+i;},5)
     +openText("comp_competitors","Largest competitors")
-    +openText("other_ideas","Other product ideas")
     +openText("comp_other","Other competitive advantages")
     +openText("florida_question","What not to leave Florida without discussing")
     +'<div style="margin-top:1.5rem;text-align:center"><button class="btn" onclick="loadResults()">↻ Refresh results</button></div>';
