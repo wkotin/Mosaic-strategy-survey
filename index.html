@@ -69,12 +69,14 @@
   .card-title.purple { color: var(--purple); border-bottom-color: var(--purple-light); }
   .card-title.orange { color: var(--orange); border-bottom-color: var(--orange-light); }
   .card-title.pink   { color: var(--pink);   border-bottom-color: var(--pink-light); }
+  .card-title.teal   { color: var(--teal);   border-bottom-color: var(--teal-light); }
   .card-title .icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: var(--accent-light); }
   .card-title.green  .icon { background: var(--green-light); }
   .card-title.gold   .icon { background: var(--gold-light); }
   .card-title.purple .icon { background: var(--purple-light); }
   .card-title.orange .icon { background: var(--orange-light); }
   .card-title.pink   .icon { background: var(--pink-light); }
+  .card-title.teal   .icon { background: var(--teal-light); }
   .question { margin-bottom: 1.75rem; }
   .question:last-child { margin-bottom: 0; }
   .q-label { font-size: 15px; font-weight: 500; color: var(--text); margin-bottom: 8px; line-height: 1.5; }
@@ -83,12 +85,12 @@
   textarea { width: 100%; padding: 11px 13px; font-size: 14px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.6; transition: border 0.15s, background 0.15s; }
   textarea:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.1); }
   textarea.field-error { border-color: var(--red); background: var(--red-light); }
-  input[type=text].single { width: 100%; padding: 11px 13px; font-size: 14px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); font-family: inherit; transition: border 0.15s, background 0.15s; }
+  input[type=text].single { width: 100%; padding: 11px 13px; font-size: 14px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg-secondary); color: var(--text); font-family: inherit; transition: border 0.15s; }
   input[type=text].single:focus { outline: none; border-color: var(--accent); background: var(--bg); box-shadow: 0 0 0 3px rgba(26,95,170,0.1); }
   input[type=text].single.field-error { border-color: var(--red); background: var(--red-light); }
   .rating-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
   .rating-item:last-child { border-bottom: none; }
-  .rating-item-label { font-size: 13px; color: var(--text-secondary); flex: 1; min-width: 150px; padding-top: 6px; }
+  .rating-item-label { font-size: 13px; color: var(--text-secondary); flex: 1; min-width: 160px; padding-top: 6px; line-height: 1.5; }
   .rating-btns { display: flex; gap: 5px; flex-wrap: wrap; }
   .rBtn { padding: 6px 10px; border: 1.5px solid var(--border-med); border-radius: 6px; background: var(--bg-secondary); cursor: pointer; font-size: 11px; font-family: inherit; font-weight: 500; color: var(--text-secondary); transition: all 0.12s; line-height: 1.3; text-align: center; white-space: nowrap; }
   .rBtn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
@@ -104,6 +106,8 @@
   .sub-card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
   .sub-card-desc  { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; line-height: 1.5; }
   .sub-card-value { font-size: 12px; color: var(--green); font-weight: 500; margin-bottom: 0.75rem; line-height: 1.5; }
+  .follow-up { margin-top: 8px; padding: 8px 12px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border-med); }
+  .follow-up .q-sub { margin-bottom: 6px; }
   .nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; }
   .val-banner { background: var(--red-light); border: 1.5px solid var(--red); border-radius: var(--radius); padding: 12px 16px; font-size: 13px; color: var(--red); margin-bottom: 1rem; font-weight: 500; line-height: 1.6; }
   .val-banner ul { margin: 6px 0 0 16px; }
@@ -148,24 +152,34 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const SURVEY_PASS  = "mosaic2026";
 const RESULTS_PASS = "mosaicadmin2026";
 
-const SECTIONS = ["Mosaic Mission","Mosaic Customers","Mosaic Core Reading Platform","Future Products","Competitive Advantage"];
+// Sections: 0=Mission, 1=Customers, 2=Core Platform, 3=Future Products A (expansion), 4=Future Products B (ideas), 5=Competitive Advantage
+const SECTIONS = ["Mosaic Mission","Mosaic Customers","Mosaic Core Reading Platform","Future Products — Strategy","Future Products — Ideas","Competitive Advantage"];
 
 const CUSTOMERS = [
-  "US radiology practices",
-  "International radiology practices",
-  "Outpatient Imaging Centers (US + international)",
-  "US Health Systems",
+  "US radiology practices","International radiology practices",
+  "Outpatient Imaging Centers (US + international)","US Health Systems",
   "Payers","Pharma","Medtech","Veterinary","Dental"
 ];
 
-const MODULES = [
-  "Drafting","Reporting","Viewer","Worklist",
-  "InfoHub","Cloud Native Archive / Streaming",
-  "Results Center (formerly CORE and VRAs)","Capture","Analytics",
-  "New Products (e.g., Medicine 3.0, products for health systems)"
+// Modules - New Products excluded from end-state question
+const MODULES_ES = [
+  "Drafting","Reporting","Viewer","Worklist","InfoHub",
+  "Cloud Native Archive / Streaming","Results Center (formerly CORE and VRAs)","Capture","Analytics"
+];
+
+const CONF_ITEMS = [
+  "Complete the Reading Platform Build",
+  "Excellent Reading Platform customer experience"
 ];
 
 const END_STATE_LABELS = ["Table Stakes","Competitive Parity","Market Leading","Category Defining"];
+
+const EXPANSION_ITEMS = [
+  "Mosaic needs to expand vertically to offer solutions in the early part of the imaging lifecycle (e.g., solutions to optimize image ordering, image acquisition)",
+  "Mosaic needs to expand vertically to offer more robust solutions in the downstream part of the imaging lifecycle (e.g., analytics, billing, operations)",
+  "Mosaic needs to expand horizontally to offer solutions across specialties or industries (i.e., enterprise PACS, care coordination)",
+  "Mosaic needs to push the boundary and enter into Medicine 3.0 (i.e., advanced diagnostics, digital biopsies)"
+];
 
 const VERT_COLORS = ["green","teal","purple","orange","gold","pink","green","teal"];
 const VERT_IDEAS = [
@@ -179,7 +193,7 @@ const VERT_IDEAS = [
   { name:"Radiology billing", desc:"Tool to optimize radiology billing through the report or the action of billing (charge capture, coding, claims generation, eligibility, denial management, payment posting)", value:"Decreases amount of time and effort required for billing" }
 ];
 
-const HORIZ_COLORS = ["purple","orange","gold","pink","green","teal","purple","orange","gold","pink","green"];
+const HORIZ_COLORS = ["purple","orange","gold","pink","green","teal","purple","teal","orange","gold","pink","green"];
 const HORIZ_IDEAS = [
   { name:"Enterprise PACS", desc:"Platform to store, manage, distribute, display medical images across the entire health system (i.e., radiology, pathology, cardiology)", value:"Faster, cheaper replacement for existing PACS" },
   { name:"Acute care coordination", desc:"Tool to manage complex workflows involved in caring for critically ill patients across specialties (e.g., stroke cases)", value:"Improves speed of care and therefore improves patient outcomes" },
@@ -188,6 +202,7 @@ const HORIZ_IDEAS = [
   { name:"ED app (escalation feature)", desc:"Tool to allow ED and ICU staff to escalate urgent cases, after providing a reason, to route cases for faster reads", value:"Provides some control over TATs for ordering providers" },
   { name:"Ordering physician chat", desc:"Tool to allow direct communication between radiologists in Mosaic and referring clinicians in EMRs", value:"Streamlines communication, reduces delays and callbacks" },
   { name:"Prioritization portal", desc:"Tool to submit weekly requests for exam prioritization (e.g., focus on outpatient, pause certain cases while physicians are on PTO)", value:"Allows hospitals to shape workflow around local needs" },
+  { name:"Triage", desc:"AI tool to notify radiologists of suspected critical findings and automatically prioritize study in the worklist", value:"Increased TAT for important cases; improved patient care" },
   { name:"Pre-authorization for imaging (for Payers)", desc:"Tool to expedite imaging claim arbitration (e.g., provide Payers with imaging data)", value:"Increased efficiency in underwriting claims" },
   { name:"Drugs (Pharma) + Medical Devices (MedTech)", desc:"Co-development on drugs or devices; clinical trial support; commercial distribution", value:"N/A" },
   { name:"Dental x-ray drafting", desc:"Cognita for teeth", value:"Increased efficiency for dental reads" },
@@ -205,6 +220,8 @@ const COMP_ADVS = [
 ];
 
 const CUST_LABELS    = ["Not at all important","Slightly important","Moderately important","Important","Very important"];
+const CONF_LABELS    = ["Not very confident","Not confident","Neutral","Confident","Very confident"];
+const AGREE_LABELS   = ["Strongly disagree","Disagree","Neutral","Agree","Strongly agree"];
 const ATTRACT_LABELS = ["Not attractive","Somewhat attractive","Moderately attractive","Attractive","Very attractive","Not sure"];
 const DIFF_LABELS    = ["Very easy","Easy","Moderate","Difficult","Very difficult","Not sure"];
 const IMP_LABELS     = ["Not at all important","Slightly important","Moderately important","Important","Very important"];
@@ -244,17 +261,15 @@ function rBtns(key,labels){
 function ta(key,ph,optional){
   ph=ph||"Your response...";
   var errCls=(!optional&&isErr(key))?" field-error":"";
-  return '<textarea id="ta_'+key+'" class="'+errCls+'" placeholder="'+ph+'" oninput="sv(\''+key+'\',this.value)">'+g(key)+'</textarea>';
-}
-function singleInput(key,ph,optional){
-  var errCls=(!optional&&isErr(key))?" field-error":"";
-  return '<input type="text" class="single'+errCls+'" placeholder="'+(ph||"Your answer...")+'" value="'+g(key)+'" oninput="sv(\''+key+'\',this.value)">';
+  return '<textarea class="'+errCls+'" placeholder="'+ph+'" oninput="sv(\''+key+'\',this.value)">'+g(key)+'</textarea>';
 }
 
 function getAllRequired(){
   var req=["name","mission_combined"];
   CUSTOMERS.forEach(function(_,i){req.push("c18_"+i,"c30_"+i);});
-  MODULES.forEach(function(_,i){req.push("mod_es_"+i);});
+  MODULES_ES.forEach(function(_,i){req.push("mod_es_"+i);});
+  CONF_ITEMS.forEach(function(_,i){req.push("conf_"+i);});
+  EXPANSION_ITEMS.forEach(function(_,i){req.push("exp_"+i);});
   VERT_IDEAS.forEach(function(_,i){req.push("vert_attr_"+i,"vert_diff_"+i);});
   HORIZ_IDEAS.forEach(function(_,i){req.push("horiz_attr_"+i,"horiz_diff_"+i);});
   req.push("capacity");
@@ -273,19 +288,21 @@ function getMissing(){
 function friendlyLabel(k){
   if(k==="name") return "Your name (Section 1)";
   if(k==="mission_combined") return "Mosaic mission (Section 1)";
-  if(k==="comp_competitors") return "Largest competitors (Section 5)";
-  if(k==="florida_question") return "Florida question (Section 5)";
-  if(k==="capacity") return "Capacity for new ideas (Section 4)";
+  if(k==="comp_competitors") return "Largest competitors (Section 6)";
+  if(k==="florida_question") return "Florida question (Section 6)";
+  if(k==="capacity") return "Capacity for new ideas (Section 5)";
   var m;
   m=k.match(/^c18_(\d+)$/); if(m) return "12-month rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
   m=k.match(/^c30_(\d+)$/); if(m) return "2030 rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
-  m=k.match(/^mod_es_(\d+)$/);   if(m) return "End-state target — "+MODULES[+m[1]]+" (Section 3)";
-  m=k.match(/^vert_attr_(\d+)$/); if(m) return "Attractiveness — "+VERT_IDEAS[+m[1]].name+" (Section 4)";
-  m=k.match(/^vert_diff_(\d+)$/); if(m) return "Build difficulty — "+VERT_IDEAS[+m[1]].name+" (Section 4)";
-  m=k.match(/^horiz_attr_(\d+)$/); if(m) return "Attractiveness — "+HORIZ_IDEAS[+m[1]].name+" (Section 4)";
-  m=k.match(/^horiz_diff_(\d+)$/); if(m) return "Build difficulty — "+HORIZ_IDEAS[+m[1]].name+" (Section 4)";
-  m=k.match(/^cadv_imp_(\d+)$/);  if(m) return "Importance — "+COMP_ADVS[+m[1]].name+" (Section 5)";
-  m=k.match(/^cadv_perf_(\d+)$/); if(m) return "Performance — "+COMP_ADVS[+m[1]].name+" (Section 5)";
+  m=k.match(/^mod_es_(\d+)$/);   if(m) return "End-state — "+MODULES_ES[+m[1]]+" (Section 3)";
+  m=k.match(/^conf_(\d+)$/);     if(m) return "Confidence — "+CONF_ITEMS[+m[1]]+" (Section 3)";
+  m=k.match(/^exp_(\d+)$/);      if(m) return "Expansion view "+(+m[1]+1)+" (Section 4)";
+  m=k.match(/^vert_attr_(\d+)$/); if(m) return "Attractiveness — "+VERT_IDEAS[+m[1]].name+" (Section 5)";
+  m=k.match(/^vert_diff_(\d+)$/); if(m) return "Build difficulty — "+VERT_IDEAS[+m[1]].name+" (Section 5)";
+  m=k.match(/^horiz_attr_(\d+)$/); if(m) return "Attractiveness — "+HORIZ_IDEAS[+m[1]].name+" (Section 5)";
+  m=k.match(/^horiz_diff_(\d+)$/); if(m) return "Build difficulty — "+HORIZ_IDEAS[+m[1]].name+" (Section 5)";
+  m=k.match(/^cadv_imp_(\d+)$/);  if(m) return "Importance — "+COMP_ADVS[+m[1]].name+" (Section 6)";
+  m=k.match(/^cadv_perf_(\d+)$/); if(m) return "Performance — "+COMP_ADVS[+m[1]].name+" (Section 6)";
   return k;
 }
 
@@ -300,8 +317,7 @@ function section0(){
     +'</div></div>'
     +'<div class="card">'
     +'<div class="card-title"><span class="icon">🎯</span>Mosaic Mission</div>'
-    +'<div class="question">'
-    +'<div class="q-label">What is the mission of Mosaic? If we are wildly successful, who will we impact and what will we do for them?</div>'
+    +'<div class="question"><div class="q-label">What is the mission of Mosaic? If we are wildly successful, who will we impact and what will we do for them?</div>'
     +ta("mission_combined","Share your vision...")
     +'</div></div>';
 }
@@ -316,10 +332,12 @@ function section1(){
   return '<div class="card">'
     +'<div class="card-title green"><span class="icon">🏥</span>Mosaic Customers</div>'
     +'<div class="q-sub" style="margin-bottom:1.25rem">Specify how important it is for Mosaic to serve the following customers:</div>'
-    +'<div class="question"><span class="q-underline">Within the next 12 months</span><div>'+rows12+'</div>'
+    +'<div class="question"><span class="q-underline">Within the next 12 months</span>'
+    +'<div>'+rows12+'</div>'
     +'<div style="margin-top:0.75rem"><div class="q-sub">Any other customer important to serve within the next 12 months? <span class="optional-tag">(optional)</span></div>'
     +ta("cust_other_12","Other customers...",true)+'</div></div>'
-    +'<div class="question"><span class="q-underline">By 2030</span><div>'+rows30+'</div>'
+    +'<div class="question"><span class="q-underline">By 2030</span>'
+    +'<div>'+rows30+'</div>'
     +'<div style="margin-top:0.75rem"><div class="q-sub">Any other customer that is important to serve by 2030? <span class="optional-tag">(optional)</span></div>'
     +ta("cust_other_30","Other customers...",true)+'</div></div>'
     +'</div>';
@@ -333,11 +351,11 @@ function section2(){
     +'<strong>Category Defining:</strong> Setting new standards for the market (rare, expensive, and usually only worth targeting on 1–2 features max)'
     +'</div>';
 
-  var moduleCards=MODULES.map(function(m,i){
+  var moduleCards=MODULES_ES.map(function(m,i){
     var esErr=isErr("mod_es_"+i);
     return '<div class="sub-card" style="background:#f8faff;border-left-color:var(--accent)">'
       +'<div class="sub-card-title">'+m+'</div>'
-      +'<div class="q-sub" style="margin-top:8px">What is the target end-state for this module?</div>'
+      +'<div class="q-sub" style="margin-top:8px">Target end-state by 2030</div>'
       +'<div class="rating-btns">'+END_STATE_LABELS.map(function(lbl,j){
         var sel=g("mod_es_"+i)===j+1?" sel":"";
         var err=esErr&&!sel?" field-error":"";
@@ -346,13 +364,64 @@ function section2(){
       +'</div>';
   }).join("");
 
+  var confRows=CONF_ITEMS.map(function(item,i){
+    var err=isErr("conf_"+i);
+    return '<div class="rating-item"><span class="rating-item-label">'+item+'</span>'
+      +'<div class="rating-btns">'+CONF_LABELS.map(function(lbl,j){
+        var sel=g("conf_"+i)===j+1?" sel":"";
+        var e=err&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+e+'" onclick="setR(\'conf_'+i+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div></div>';
+  }).join("");
+
   return '<div class="card">'
     +'<div class="card-title"><span class="icon">🛠</span>Mosaic Core Reading Platform</div>'
-    +'<div class="q-sub" style="margin-bottom:0.75rem">For each product module, specify the target end-state.</div>'
-    +infoBox+moduleCards+'</div>';
+    +'<div class="q-label" style="margin-bottom:0.5rem">For each module, specify what you think the target end-state should be by 2030:</div>'
+    +'<div class="q-sub" style="margin-bottom:0.75rem"></div>'
+    +infoBox+moduleCards
+    +'</div>'
+    +'<div class="card">'
+    +'<div class="card-title teal"><span class="icon">📊</span>Delivery Confidence</div>'
+    +'<div class="q-label" style="margin-bottom:1rem">How confident are you in our ability to deliver the following at "current course and speed"?</div>'
+    +'<div>'+confRows+'</div>'
+    +'</div>';
 }
 
 function section3(){
+  // Expansion strategy with conditional follow-up
+  var expCards=EXPANSION_ITEMS.map(function(item,i){
+    var agreeVal=g("exp_"+i,0);
+    var agreeOrStrongly = agreeVal===4||agreeVal===5;
+    var err=isErr("exp_"+i);
+    var followUp="";
+    if(agreeOrStrongly){
+      followUp='<div class="follow-up">'
+        +'<div class="q-sub">How strong does our offering need to be in this area?</div>'
+        +'<div class="rating-btns">'+END_STATE_LABELS.map(function(lbl,j){
+          var sel=g("exp_str_"+i)===j+1?" sel":"";
+          return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'exp_str_'+i+'\','+(j+1)+')">'+lbl+'</button>';
+        }).join("")+'</div>'
+        +'</div>';
+    }
+    return '<div class="sub-card" style="background:#f8faff;border-left-color:var(--accent);margin-bottom:0.75rem">'
+      +'<div class="sub-card-desc" style="margin-bottom:8px;font-size:13px;color:var(--text)">'+item+'</div>'
+      +'<div class="rating-btns">'+AGREE_LABELS.map(function(lbl,j){
+        var sel=agreeVal===j+1?" sel":"";
+        var e=err&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+e+'" onclick="setR(\'exp_'+i+'\','+(j+1)+')">'+lbl+'</button>';
+      }).join("")+'</div>'
+      +followUp
+      +'</div>';
+  }).join("");
+
+  return '<div class="card">'
+    +'<div class="card-title purple"><span class="icon">🗺</span>Future Products — How Should Mosaic Expand?</div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">For each statement, indicate how strongly you agree or disagree. If you agree or strongly agree, you will be asked how strong our offering needs to be.</div>'
+    +expCards
+    +'</div>';
+}
+
+function section4(){
   function ideaCard(idea,attrKey,diffKey,color){
     return '<div class="sub-card '+color+'">'
       +'<div class="sub-card-title">'+idea.name+'</div>'
@@ -375,21 +444,14 @@ function section3(){
   var horizCards=HORIZ_IDEAS.map(function(idea,i){ return ideaCard(idea,"horiz_attr_"+i,"horiz_diff_"+i,HORIZ_COLORS[i%HORIZ_COLORS.length]); }).join("");
   var capErr=isErr("capacity");
 
-  var otherIdea='<div class="card">'
-    +'<div class="card-title teal" style="color:var(--teal);border-bottom-color:var(--teal-light)"><span class="icon" style="background:var(--teal-light)">✏️</span>Other Idea <span class="optional-tag" style="font-size:13px;font-weight:400;margin-left:4px">(optional)</span></div>'
+  var otherCard='<div class="card">'
+    +'<div class="card-title teal"><span class="icon">✏️</span>Other Idea <span class="optional-tag" style="font-size:13px;font-weight:400;margin-left:4px">(optional)</span></div>'
     +'<div class="q-sub" style="margin-bottom:1rem">Have an idea not listed above? Describe it and rate it below.</div>'
-    +'<div class="question"><div class="q-label">Describe your idea</div>'
-    +ta("other_idea_desc","Describe the product idea...",true)+'</div>'
+    +'<div class="question"><div class="q-label">Describe your idea</div>'+ta("other_idea_desc","Describe the product idea...",true)+'</div>'
     +'<div class="rating-item"><span class="rating-item-label">Attractiveness for customer / willingness to pay</span>'
-    +'<div class="rating-btns">'+ATTRACT_LABELS.map(function(lbl,j){
-      var sel=g("other_attr")===j+1?" sel":"";
-      return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'other_attr\','+(j+1)+')">'+lbl+'</button>';
-    }).join("")+'</div></div>'
+    +'<div class="rating-btns">'+ATTRACT_LABELS.map(function(lbl,j){ var sel=g("other_attr")===j+1?" sel":""; return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'other_attr\','+(j+1)+')">'+lbl+'</button>'; }).join("")+'</div></div>'
     +'<div class="rating-item" style="border-bottom:none"><span class="rating-item-label">Difficulty to build for current Mosaic team</span>'
-    +'<div class="rating-btns">'+DIFF_LABELS.map(function(lbl,j){
-      var sel=g("other_diff")===j+1?" sel":"";
-      return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'other_diff\','+(j+1)+')">'+lbl+'</button>';
-    }).join("")+'</div></div>'
+    +'<div class="rating-btns">'+DIFF_LABELS.map(function(lbl,j){ var sel=g("other_diff")===j+1?" sel":""; return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'other_diff\','+(j+1)+')">'+lbl+'</button>'; }).join("")+'</div></div>'
     +'</div>';
 
   return '<div class="card">'
@@ -400,7 +462,7 @@ function section3(){
     +'<div class="card-title gold"><span class="icon">🌐</span>Horizontal product ideas — expansion beyond Radiology</div>'
     +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness and build difficulty.</div>'
     +horizCards+'</div>'
-    +otherIdea
+    +otherCard
     +'<div class="card">'
     +'<div class="card-title purple"><span class="icon">⚡</span>Capacity</div>'
     +'<div class="question"><div class="q-label">With our current capacity, how many new ideas can we take on in the next 12 months?</div>'
@@ -412,7 +474,7 @@ function section3(){
     +'</div>';
 }
 
-function section4(){
+function section5(){
   var advCards=COMP_ADVS.map(function(adv,i){
     return '<div class="sub-card">'
       +'<div class="sub-card-title">'+adv.name+'</div>'
@@ -434,7 +496,7 @@ function section4(){
     +'<div class="card-title pink"><span class="icon">🏆</span>Competitive Advantage</div>'
     +'<div class="question"><div class="q-label">Who are our largest competitors and why?</div>'
     +ta("comp_competitors","Name competitors and explain...")+'</div>'
-    +'<div class="q-label" style="margin-bottom:1rem">For each of the following competitive advantages, rate how important it is to Mosaic\'s success and our current performance:</div>'
+    +'<div class="q-label" style="margin-bottom:1rem">For each competitive advantage, rate importance and our current performance:</div>'
     +advCards
     +'<div class="question" style="margin-top:1rem"><div class="q-sub">Any competitive advantages we\'re missing? <span class="optional-tag">(optional)</span></div>'
     +ta("comp_other","Other competitive advantages...",true)+'</div>'
@@ -447,7 +509,7 @@ function section4(){
 }
 
 function renderSurvey(){
-  var fns=[section0,section1,section2,section3,section4];
+  var fns=[section0,section1,section2,section3,section4,section5];
   var isLast=state.section===SECTIONS.length-1;
   var steps=SECTIONS.map(function(_,i){ var cls=i<state.section?"done":(i===state.section?"active":""); return '<div class="progress-step '+cls+'"></div>'; }).join("");
   var valBanner="";
@@ -472,7 +534,7 @@ function renderDashboard(){
   var all=state.resultsData||[];
   if(!all.length) return '<div class="no-resp" style="padding:2rem;text-align:center">No responses submitted yet.</div>';
   var latest=new Date(all[all.length-1].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
-  var names=all.map(function(r,i){ var n=r.answers.name||""; return n||"Respondent "+(i+1); });
+  var names=all.map(function(r,i){ return r.answers.name||"Respondent "+(i+1); });
 
   function openText(key,label){
     var entries=all.map(function(r,i){ return r.answers[key]?'<div class="resp-item"><strong>'+names[i]+':</strong> '+r.answers[key]+'</div>':""; }).join("");
@@ -497,11 +559,13 @@ function renderDashboard(){
     +barChart("Customer importance — by 2030 (avg)",CUSTOMERS,function(i){return"c30_"+i;},5)
     +openText("cust_other_12","Other customers — next 12 months")
     +openText("cust_other_30","Other customers — by 2030")
-    +barChart("Module end-state target (avg, 1–4 scale)",MODULES,function(i){return"mod_es_"+i;},4)
-    +barChart("Vertical ideas — attractiveness (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_attr_"+i;})
-    +barChart("Vertical ideas — build difficulty (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_diff_"+i;})
-    +barChart("Horizontal ideas — attractiveness (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_attr_"+i;})
-    +barChart("Horizontal ideas — build difficulty (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_diff_"+i;})
+    +barChart("Module end-state target (avg, 1–4)",MODULES_ES,function(i){return"mod_es_"+i;},4)
+    +barChart("Delivery confidence (avg, 1–5)",CONF_ITEMS,function(i){return"conf_"+i;},5)
+    +barChart("Expansion strategy — agreement (avg, 1–5)",EXPANSION_ITEMS.map(function(_,i){return"Statement "+(i+1);}),function(i){return"exp_"+i;},5)
+    +barChart("Vertical ideas — attractiveness (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_attr_"+i;},6)
+    +barChart("Vertical ideas — build difficulty (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_diff_"+i;},6)
+    +barChart("Horizontal ideas — attractiveness (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_attr_"+i;},6)
+    +barChart("Horizontal ideas — build difficulty (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_diff_"+i;},6)
     +openText("other_idea_desc","Other ideas submitted")
     +barChart("Competitive advantage — importance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_imp_"+i;},5)
     +barChart("Competitive advantage — current performance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_perf_"+i;},5)
