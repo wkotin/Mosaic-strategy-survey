@@ -172,13 +172,13 @@ const RESULTS_PASS = "mosaicadmin2026";
 
 const SECTIONS = ["Mosaic Mission","Mosaic Customers","Mosaic Core Reading Platform","Future Products — Strategy","Future Products — Ideas","Competitive Advantage"];
 
-const CUSTOMERS = ["US radiology practices","International radiology practices","Outpatient Imaging Centers (US + international)","US Health Systems","Payers","Pharma","Medtech","Veterinary","Dental"];
+const CUSTOMERS = ["US radiology practices","International radiology practices","Outpatient Imaging Centers","Health systems","Payers","Pharma","Medtech","Veterinary","Dental"];
 
 const MODULES_ES = ["Drafting","Reporting","Viewer","Worklist","InfoHub","Cloud Native Archive / Streaming","Results Center (formerly CORE and VRAs)","Capture","Analytics"];
 
 const CONF_ITEMS = [
-  "Complete and stabilize the Reading Platform",
-  "Deliver an excellent Reading Platform customer experience (i.e., sales through deployment & support)"
+  "Complete and stabilize the Reading Platform by the end of 2026",
+  "Deliver an excellent Reading Platform customer experience by Q1 of 2027 (i.e., sales through deployment & support)"
 ];
 
 const END_STATE_LABELS = ["Table Stakes","Competitive Parity","Market Leading","Category Defining"];
@@ -199,14 +199,14 @@ const VERT_IDEAS = [
   { icon:"🔍", name:"Opportunistic screening", desc:"AI-assisted detection of opportunistic findings like CAC, BAC, Hepatic Steatosis", value:"Improved report quality; potential downstream care impacts for hospital" },
   { icon:"🔔", name:"Radiology follow up", desc:"Tool to track and manage recommendations made by radiologists in their reports (e.g., repeat CT to monitor nodule)", value:"Increases number of radiology-related follow ups the customer captures / prevents patient leakage" },
   { icon:"📊", name:"Mosaic analytics", desc:"Tool to monitor the availability, performance, and reliability of Mosaic. Extend to benchmark performance across scanners, techs, sites, and potentially the entire industry", value:"Allows customer to manage and track Mosaic performance" },
-  { icon:"💳", name:"Radiology billing", desc:"Tool to optimize radiology billing through the report or the action of billing (charge capture, coding, claims generation, eligibility, denial management, payment posting)", value:"Decreases amount of time and effort required for billing" }
+  { icon:"💳", name:"Radiology billing", desc:"Tool to optimize radiology billing through the report or the action of billing (charge capture, coding, claims generation, eligibility, denial management, payment posting)", value:"Increase revenue captured and/or decrease amount of time and effort in billing" }
 ];
 
 const HORIZ_COLORS = ["purple","orange","gold","pink","green","teal","purple","teal","orange","gold","pink","green"];
 const HORIZ_IDEAS = [
   { icon:"🏛️", name:"Enterprise PACS", desc:"Platform to store, manage, distribute, display medical images across the entire health system (i.e., radiology, pathology, cardiology)", value:"Faster, cheaper replacement for existing PACS" },
   { icon:"🚑", name:"Acute care coordination", desc:"Tool to manage complex workflows involved in caring for critically ill patients across specialties (e.g., stroke cases)", value:"Improves speed of care and therefore improves patient outcomes" },
-  { icon:"👤", name:"Patient management", desc:"Tool to track and manage all patient follow ups (e.g., follow up appointment with cardiologist)", value:"Increases number of follow ups the customer captures / prevents patient leakage" },
+
   { icon:"🍕", name:"Exam lifecycle visibility (\"Pizza Tracker\")", desc:"Tracking dashboard to show each exam's status from order to acquisition to QC to read to complete for ordering physician", value:"Provides visibility into radiology TAT" },
   { icon:"🚨", name:"ED app (escalation feature)", desc:"Tool to allow ED and ICU staff to escalate urgent cases, after providing a reason, to route cases for faster reads", value:"Provides some control over TATs for ordering providers" },
   { icon:"💬", name:"Ordering physician chat", desc:"Tool to allow direct communication between radiologists in Mosaic and referring clinicians in EMRs", value:"Streamlines communication, reduces delays and callbacks" },
@@ -224,8 +224,7 @@ const COMP_ADVS = [
   { name:"Proprietary data", desc:"Access to data (images, exams, EHR) that others cannot replicate" },
   { name:"Enterprise reliability", desc:"Robust software with reliable uptime versus our peer competitors" },
   { name:"Deep clinical integration", desc:"Clinical insights built into full workflow leading to seamless experience for clinicians" },
-  { name:"Superior execution", desc:"Speed of iteration and product release" },
-  { name:"Radiology Partners Clinical Services flywheel", desc:"Mosaic makes our RP clinicians successful and vice versa — a self-reinforcing cycle between our reading platform, clinical insights, and customer success" }
+  { name:"Superior execution", desc:"Speed of iteration and product release" }
 ];
 
 const CUST_LABELS    = ["Not at all important","Slightly important","Moderately important","Important","Very important"];
@@ -273,6 +272,7 @@ function getSectionRequired(s){
 function getMissingForSection(s){
   return getSectionRequired(s).filter(function(k){
     var v=state.answers[k];
+    if(k==="cadv_rank_imp") return !v||v.length<COMP_ADVS.length;
     if(v===undefined||v===""||v===null) return true;
     if(k==="capacity"&&typeof v==="number"&&v<0) return true;
     return false;
@@ -473,8 +473,8 @@ function section4(){
     +extraCards
     +'<div style="margin-top:'+(state.extraIdeas.length>0?'0.75rem':'0')+'">'
     +'<button type="button" class="btn add-more" onclick="addExtraIdea()">+ Add an idea</button></div></div>'
-    +'<div class="card"><div class="card-title purple"><span class="icon">⚡</span>Capacity</div>'
-    +'<div class="question"><div class="q-label">With our current capacity, how many new ideas can we take on in the next 12 months?</div>'
+    +'<div class="card"><div class="card-title purple"><span class="icon">⚡</span>New Ideas</div>'
+    +'<div class="question"><div class="q-label">How many additional new ideas SHOULD we take on in the next 12 months to 1) balance setting us up for success in 2030 while 2) maintaining focus on what\'s currently in front of us?</div>'
     +'<div class="rating-btns">'+CAPACITY_LABELS.map(function(lbl,j){
       var sel=g("capacity",-1)===j?" sel":""; var err=capErr&&!sel?" field-error":"";
       return '<button type="button" class="rBtn'+sel+err+'" onclick="setCap('+j+')">'+lbl+'</button>';
@@ -482,30 +482,39 @@ function section4(){
 }
 
 function section5(){
-  var impOrder = state.answers.cadv_rank_imp || COMP_ADVS.map(function(_,i){return i;});
   var COLORS = ["#1a5faa","#0e7c6a","#6d28d9","#c05621","#a0620a","#be185d","#0891b2"];
 
-  function rankList(listId, orderArr, storeKey){
+  function rankList(storeKey){
     var hasErr = isErr(storeKey);
-    var selected = state._rankSelected && state._rankSelected.store === storeKey ? state._rankSelected.pos : -1;
-    var items = orderArr.map(function(idx, pos){
-      var adv = COMP_ADVS[idx];
+    var order = state.answers[storeKey] || [];
+    // order is array of COMP_ADVS indices in chosen rank order
+    // Build: for each adv, show a pick button row. Already-picked items show their rank.
+    var n = COMP_ADVS.length;
+    var items = COMP_ADVS.map(function(adv, idx){
+      var rankedPos = order.indexOf(idx); // -1 if not yet picked
       var col = COLORS[idx % COLORS.length];
-      var isSel = selected === pos;
-      var selStyle = isSel ? 'background:var(--accent-light);border-color:var(--accent);' : 'background:var(--bg);border-color:var(--border-med);';
-      return '<div onclick="rankTap(\''+storeKey+'\','+pos+')"'
-        +' style="'+selStyle+'border:1.5px solid;border-left:4px solid '+col+';border-radius:var(--radius);padding:10px 14px;margin-bottom:6px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;user-select:none;transition:background 0.15s,border-color 0.15s">'
-        +(isSel ? '<span style="font-size:16px;flex-shrink:0;line-height:1.4">👆</span>' : '<span style="font-size:16px;color:var(--text-light);flex-shrink:0;line-height:1.4">☰</span>')
+      var isPicked = rankedPos >= 0;
+      var bg = isPicked ? 'background:var(--accent-light);' : 'background:var(--bg);';
+      var borderStyle = (hasErr && !isPicked) ? 'border:1.5px solid var(--red);' : 'border:1.5px solid var(--border-med);';
+      return '<div style="'+bg+borderStyle+'border-left:4px solid '+col+';border-radius:var(--radius);padding:10px 14px;margin-bottom:6px;display:flex;align-items:flex-start;gap:10px">'
         +'<div style="flex:1">'
         +'<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">'+adv.name+'</div>'
         +'<div style="font-size:12px;color:var(--text-secondary);line-height:1.4">'+adv.desc+'</div>'
         +'</div>'
-        +'<span style="font-size:12px;font-weight:700;color:'+(isSel?'var(--accent)':col)+';flex-shrink:0;padding-top:1px">#'+(pos+1)+'</span>'
+        +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">'
+        +(isPicked
+          ? '<span style="font-size:12px;font-weight:700;color:var(--accent);white-space:nowrap">#'+(rankedPos+1)+' ✓</span>'
+            +'<button type="button" onclick="rankRemove(\''+storeKey+'\','+idx+')" style="font-size:11px;padding:3px 8px;border:1px solid var(--border-med);border-radius:4px;background:var(--bg);cursor:pointer;color:var(--text-secondary)">Remove</button>'
+          : '<button type="button" onclick="rankAdd(\''+storeKey+'\','+idx+')" style="font-size:11px;padding:3px 10px;border:1.5px solid var(--accent);border-radius:4px;background:var(--bg);cursor:pointer;color:var(--accent);font-weight:600">+ Select</button>'
+        )
+        +'</div>'
         +'</div>';
     }).join("");
-    var border = hasErr ? 'border:1.5px solid var(--red);border-radius:var(--radius);padding:6px;' : '';
-    var hint = selected >= 0 ? '<div style="font-size:12px;color:var(--accent);margin-bottom:8px;font-weight:500">Now tap another item to swap it into position #'+(selected+1)+'</div>' : '<div style="font-size:12px;color:var(--text-light);margin-bottom:8px">Tap an item to select it, then tap another to swap positions.</div>';
-    return '<div style="'+border+'">'+hint+items+'</div>';
+    var picked = order.length;
+    var progress = '<div style="font-size:12px;color:'+(hasErr?'var(--red)':'var(--text-secondary)')+';margin-bottom:10px">'
+      +(picked===0 ? 'Select all competitive advantages in order of importance — most important first.' : picked+' of '+n+' selected'+(picked===n?' — all ranked! You can remove and re-add to adjust order.':' — keep selecting in order of importance.'))
+      +'</div>';
+    return '<div>'+progress+items+'</div>';
   }
 
   var perfRows = COMP_ADVS.map(function(adv,i){
@@ -524,8 +533,8 @@ function section5(){
     +'</div>'
     +'<div class="card"><div class="card-title pink"><span class="icon">🥇</span>Sources of competitive advantage</div>'
     +'<div class="q-label" style="margin-bottom:0.25rem">Rank these competitive advantages from most to least important to Mosaic\'s success.</div>'
-    +'<div class="q-sub" style="margin-bottom:1rem">Drag and drop into your preferred order. #1 = most important.</div>'
-    +rankList("rank-imp", impOrder, "cadv_rank_imp")
+    +'<div class="q-sub" style="margin-bottom:1rem">Click "+ Select" on each advantage in order of importance — most important first.</div>'
+    +rankList("cadv_rank_imp")
     +'<div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)">'
     +'<div class="q-label" style="margin-bottom:0.25rem">Rate our current strength on each competitive advantage:</div>'
     +'<div class="q-sub" style="margin-bottom:0.75rem">Very weak → Very strong</div>'
@@ -794,19 +803,19 @@ window.checkPw=function(){
   else{ document.getElementById("pw-err").textContent="Incorrect password. Please try again."; }
 };
 
-// Tap-to-swap ranking (mobile + desktop compatible)
-window.rankTap=function(storeKey, pos){
-  var order=state.answers[storeKey]?state.answers[storeKey].slice():COMP_ADVS.map(function(_,i){return i;});
-  if(!state._rankSelected || state._rankSelected.store !== storeKey){
-    state._rankSelected={store:storeKey,pos:pos};
-    render(); return;
-  }
-  var fromPos=state._rankSelected.pos;
-  state._rankSelected=null;
-  if(fromPos===pos){ render(); return; }
-  var tmp=order[fromPos]; order[fromPos]=order[pos]; order[pos]=tmp;
+// Ranked selection handlers
+window.rankAdd=function(storeKey, idx){
+  var order=state.answers[storeKey]?state.answers[storeKey].slice():[];
+  if(order.indexOf(idx)<0) order.push(idx);
   state.answers[storeKey]=order;
   state.errors=state.errors.filter(function(e){return e!==storeKey;});
+  render();
+};
+window.rankRemove=function(storeKey, idx){
+  var order=state.answers[storeKey]?state.answers[storeKey].slice():[];
+  var pos=order.indexOf(idx);
+  if(pos>=0) order.splice(pos,1);
+  state.answers[storeKey]=order;
   render();
 };
 
