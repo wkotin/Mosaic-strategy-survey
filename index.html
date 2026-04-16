@@ -49,6 +49,8 @@
   .btn:hover { background: var(--bg-secondary); border-color: var(--accent); }
   .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
   .btn.primary:hover { background: #144d8e; }
+  .btn.add-more { background: var(--bg); color: var(--accent); border-color: var(--accent); font-size: 13px; padding: 8px 18px; }
+  .btn.add-more:hover { background: var(--accent-light); }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
   .survey-header { background: var(--bg); border-radius: var(--radius-lg); padding: 1rem 1.5rem; margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 8px; }
   .header-logo { font-size: 11px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent); text-transform: uppercase; }
@@ -103,7 +105,9 @@
   .sub-card.orange { border-left-color: var(--orange); background: var(--orange-light); }
   .sub-card.gold   { border-left-color: var(--gold);   background: var(--gold-light); }
   .sub-card.pink   { border-left-color: var(--pink);   background: var(--pink-light); }
-  .sub-card-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .sub-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .sub-card-icon { font-size: 20px; flex-shrink: 0; }
+  .sub-card-title { font-size: 14px; font-weight: 600; color: var(--text); }
   .sub-card-desc  { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; line-height: 1.5; }
   .sub-card-value { font-size: 12px; color: var(--green); font-weight: 500; margin-bottom: 0.75rem; line-height: 1.5; }
   .follow-up { margin-top: 8px; padding: 8px 12px; background: var(--bg); border-radius: var(--radius); border: 1px solid var(--border-med); }
@@ -119,6 +123,7 @@
   .info-box { background: var(--accent-light); border-radius: var(--radius); padding: 12px 16px; margin-bottom: 1.25rem; font-size: 13px; line-height: 1.8; color: var(--text-secondary); border-left: 3px solid var(--accent); }
   .info-box strong { color: var(--accent); }
   .optional-tag { font-weight: 400; color: var(--text-light); font-size: 13px; }
+  /* Dashboard */
   .stat-row { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 1.25rem; }
   .stat { background: var(--bg); border-radius: var(--radius); padding: 0.9rem 1.1rem; flex: 1; min-width: 100px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); border-top: 3px solid var(--accent); }
   .stat-val { font-size: 28px; font-weight: 700; color: var(--accent); }
@@ -138,6 +143,19 @@
   .loading { text-align: center; padding: 2rem; color: var(--text-secondary); font-size: 14px; }
   .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  /* Respondent view */
+  .resp-select-row { display: flex; align-items: center; gap: 10px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .resp-select-row select { padding: 8px 12px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg); color: var(--text); font-family: inherit; font-size: 14px; cursor: pointer; }
+  .resp-detail-section { margin-bottom: 1.5rem; }
+  .resp-detail-section h4 { font-size: 12px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+  .resp-detail-row { display: flex; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; flex-wrap: wrap; }
+  .resp-detail-row:last-child { border-bottom: none; }
+  .resp-detail-label { color: var(--text-secondary); flex: 1; min-width: 180px; }
+  .resp-detail-val { color: var(--text); font-weight: 500; }
+  .pill { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; background: var(--accent-light); color: var(--accent); }
+  .dash-view-tabs { display: flex; gap: 6px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+  .dash-view-tab { padding: 7px 16px; border: 1.5px solid var(--border-med); border-radius: var(--radius); background: var(--bg); color: var(--text-secondary); cursor: pointer; font-size: 13px; font-family: inherit; font-weight: 500; transition: all 0.15s; }
+  .dash-view-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
   @media (max-width: 600px) {
     .rating-item { flex-direction: column; }
     .rating-item-label { padding-top: 0; }
@@ -152,24 +170,15 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const SURVEY_PASS  = "mosaic2026";
 const RESULTS_PASS = "mosaicadmin2026";
 
-// Sections: 0=Mission, 1=Customers, 2=Core Platform, 3=Future Products A (expansion), 4=Future Products B (ideas), 5=Competitive Advantage
 const SECTIONS = ["Mosaic Mission","Mosaic Customers","Mosaic Core Reading Platform","Future Products — Strategy","Future Products — Ideas","Competitive Advantage"];
 
-const CUSTOMERS = [
-  "US radiology practices","International radiology practices",
-  "Outpatient Imaging Centers (US + international)","US Health Systems",
-  "Payers","Pharma","Medtech","Veterinary","Dental"
-];
+const CUSTOMERS = ["US radiology practices","International radiology practices","Outpatient Imaging Centers (US + international)","US Health Systems","Payers","Pharma","Medtech","Veterinary","Dental"];
 
-// Modules - New Products excluded from end-state question
-const MODULES_ES = [
-  "Drafting","Reporting","Viewer","Worklist","InfoHub",
-  "Cloud Native Archive / Streaming","Results Center (formerly CORE and VRAs)","Capture","Analytics"
-];
+const MODULES_ES = ["Drafting","Reporting","Viewer","Worklist","InfoHub","Cloud Native Archive / Streaming","Results Center (formerly CORE and VRAs)","Capture","Analytics"];
 
 const CONF_ITEMS = [
-  "Complete the Reading Platform Build",
-  "Excellent Reading Platform customer experience"
+  "Complete and stabilize the Reading Platform",
+  "Deliver an excellent Reading Platform customer experience (i.e., sales through deployment & support)"
 ];
 
 const END_STATE_LABELS = ["Table Stakes","Competitive Parity","Market Leading","Category Defining"];
@@ -183,30 +192,30 @@ const EXPANSION_ITEMS = [
 
 const VERT_COLORS = ["green","teal","purple","orange","gold","pink","green","teal"];
 const VERT_IDEAS = [
-  { name:"Imaging order prior authorization", desc:"Tool to approve or reject imaging orders from providers based on relevant context (e.g., patient history, workup)", value:"Prevents ordering providers from unnecessarily utilizing imaging (and backing up the ED)" },
-  { name:"Order-to-acquisition optimization", desc:"Tool to auto-schedule scans considering specific techs, machines, and protocols", value:"Increases number of scans the customer can perform by minimizing downtime between scans" },
-  { name:"Acquisition optimization", desc:"Tool to decrease image acquisition time (e.g., Subtle)", value:"Increases number of scans the customer can perform by minimizing time in the scanner (aka tabletop time)" },
-  { name:"Peer learning platform", desc:"Tool for rads to flag interesting or discrepant cases for review with trend analysis (by rad, modality, body part) to identify learning needs", value:"Improved quality for radiologist reads" },
-  { name:"Opportunistic screening", desc:"AI-assisted detection of opportunistic findings like CAC, BAC, Hepatic Steatosis", value:"Improved report quality; potential downstream care impacts for hospital" },
-  { name:"Radiology follow up", desc:"Tool to track and manage recommendations made by radiologists in their reports (e.g., repeat CT to monitor nodule)", value:"Increases number of radiology-related follow ups the customer captures / prevents patient leakage" },
-  { name:"Mosaic analytics", desc:"Tool to monitor the availability, performance, and reliability of Mosaic. Extend to benchmark performance across scanners, techs, sites, and potentially the entire industry", value:"Allows customer to manage and track Mosaic performance" },
-  { name:"Radiology billing", desc:"Tool to optimize radiology billing through the report or the action of billing (charge capture, coding, claims generation, eligibility, denial management, payment posting)", value:"Decreases amount of time and effort required for billing" }
+  { icon:"📋", name:"Imaging order prior authorization", desc:"Tool to approve or reject imaging orders from providers based on relevant context (e.g., patient history, workup)", value:"Prevents ordering providers from unnecessarily utilizing imaging (and backing up the ED)" },
+  { icon:"🗓️", name:"Order-to-acquisition optimization", desc:"Tool to auto-schedule scans considering specific techs, machines, and protocols", value:"Increases number of scans the customer can perform by minimizing downtime between scans" },
+  { icon:"⚡", name:"Acquisition optimization", desc:"Tool to decrease image acquisition time (e.g., Subtle)", value:"Increases number of scans the customer can perform by minimizing time in the scanner (aka tabletop time)" },
+  { icon:"🎓", name:"Peer learning platform", desc:"Tool for rads to flag interesting or discrepant cases for review with trend analysis (by rad, modality, body part) to identify learning needs", value:"Improved quality for radiologist reads" },
+  { icon:"🔍", name:"Opportunistic screening", desc:"AI-assisted detection of opportunistic findings like CAC, BAC, Hepatic Steatosis", value:"Improved report quality; potential downstream care impacts for hospital" },
+  { icon:"🔔", name:"Radiology follow up", desc:"Tool to track and manage recommendations made by radiologists in their reports (e.g., repeat CT to monitor nodule)", value:"Increases number of radiology-related follow ups the customer captures / prevents patient leakage" },
+  { icon:"📊", name:"Mosaic analytics", desc:"Tool to monitor the availability, performance, and reliability of Mosaic. Extend to benchmark performance across scanners, techs, sites, and potentially the entire industry", value:"Allows customer to manage and track Mosaic performance" },
+  { icon:"💳", name:"Radiology billing", desc:"Tool to optimize radiology billing through the report or the action of billing (charge capture, coding, claims generation, eligibility, denial management, payment posting)", value:"Decreases amount of time and effort required for billing" }
 ];
 
 const HORIZ_COLORS = ["purple","orange","gold","pink","green","teal","purple","teal","orange","gold","pink","green"];
 const HORIZ_IDEAS = [
-  { name:"Enterprise PACS", desc:"Platform to store, manage, distribute, display medical images across the entire health system (i.e., radiology, pathology, cardiology)", value:"Faster, cheaper replacement for existing PACS" },
-  { name:"Acute care coordination", desc:"Tool to manage complex workflows involved in caring for critically ill patients across specialties (e.g., stroke cases)", value:"Improves speed of care and therefore improves patient outcomes" },
-  { name:"Patient management", desc:"Tool to track and manage all patient follow ups (e.g., follow up appointment with cardiologist)", value:"Increases number of follow ups the customer captures / prevents patient leakage" },
-  { name:"Exam lifecycle visibility (\"Pizza Tracker\")", desc:"Tracking dashboard to show each exam's status from order to acquisition to QC to read to complete for ordering physician", value:"Provides visibility into radiology TAT" },
-  { name:"ED app (escalation feature)", desc:"Tool to allow ED and ICU staff to escalate urgent cases, after providing a reason, to route cases for faster reads", value:"Provides some control over TATs for ordering providers" },
-  { name:"Ordering physician chat", desc:"Tool to allow direct communication between radiologists in Mosaic and referring clinicians in EMRs", value:"Streamlines communication, reduces delays and callbacks" },
-  { name:"Prioritization portal", desc:"Tool to submit weekly requests for exam prioritization (e.g., focus on outpatient, pause certain cases while physicians are on PTO)", value:"Allows hospitals to shape workflow around local needs" },
-  { name:"Triage", desc:"AI tool to notify radiologists of suspected critical findings and automatically prioritize study in the worklist", value:"Increased TAT for important cases; improved patient care" },
-  { name:"Pre-authorization for imaging (for Payers)", desc:"Tool to expedite imaging claim arbitration (e.g., provide Payers with imaging data)", value:"Increased efficiency in underwriting claims" },
-  { name:"Drugs (Pharma) + Medical Devices (MedTech)", desc:"Co-development on drugs or devices; clinical trial support; commercial distribution", value:"N/A" },
-  { name:"Dental x-ray drafting", desc:"Cognita for teeth", value:"Increased efficiency for dental reads" },
-  { name:"Dog + Cat x-ray drafting", desc:"Cognita for pets", value:"Increased efficiency for pet reads" }
+  { icon:"🏛️", name:"Enterprise PACS", desc:"Platform to store, manage, distribute, display medical images across the entire health system (i.e., radiology, pathology, cardiology)", value:"Faster, cheaper replacement for existing PACS" },
+  { icon:"🚑", name:"Acute care coordination", desc:"Tool to manage complex workflows involved in caring for critically ill patients across specialties (e.g., stroke cases)", value:"Improves speed of care and therefore improves patient outcomes" },
+  { icon:"👤", name:"Patient management", desc:"Tool to track and manage all patient follow ups (e.g., follow up appointment with cardiologist)", value:"Increases number of follow ups the customer captures / prevents patient leakage" },
+  { icon:"🍕", name:"Exam lifecycle visibility (\"Pizza Tracker\")", desc:"Tracking dashboard to show each exam's status from order to acquisition to QC to read to complete for ordering physician", value:"Provides visibility into radiology TAT" },
+  { icon:"🚨", name:"ED app (escalation feature)", desc:"Tool to allow ED and ICU staff to escalate urgent cases, after providing a reason, to route cases for faster reads", value:"Provides some control over TATs for ordering providers" },
+  { icon:"💬", name:"Ordering physician chat", desc:"Tool to allow direct communication between radiologists in Mosaic and referring clinicians in EMRs", value:"Streamlines communication, reduces delays and callbacks" },
+  { icon:"📅", name:"Prioritization portal", desc:"Tool to submit weekly requests for exam prioritization (e.g., focus on outpatient, pause certain cases while physicians are on PTO)", value:"Allows hospitals to shape workflow around local needs" },
+  { icon:"🔺", name:"Triage", desc:"AI tool to notify radiologists of suspected critical findings and automatically prioritize study in the worklist", value:"Increased TAT for important cases; improved patient care" },
+  { icon:"🚫", name:"Pre-authorization for imaging (for Payers)", desc:"Tool to expedite imaging claim arbitration (e.g., provide Payers with imaging data)", value:"Increased efficiency in underwriting claims" },
+  { icon:"💊", name:"Drugs (Pharma) + Medical Devices (MedTech)", desc:"Co-development on drugs or devices; clinical trial support; commercial distribution", value:"New drug or medical device development; more efficient clinical trials; increased distribution" },
+  { icon:"😁", name:"Dental x-ray drafting", desc:"Cognita for teeth", value:"Increased efficiency for dental reads" },
+  { icon:"🐾", name:"Dog + Cat x-ray drafting", desc:"Cognita for pets", value:"Increased efficiency for pet reads" }
 ];
 
 const COMP_ADVS = [
@@ -228,13 +237,15 @@ const IMP_LABELS     = ["Not at all important","Slightly important","Moderately 
 const PERF_LABELS    = ["Very weak","Weak","Moderate","Strong","Very strong"];
 const CAPACITY_LABELS= ["0 — No capacity","1 — One new idea","2 — Two new ideas","3 — Three new ideas","4+ — Four or more"];
 
-let state = { view:"gate", section:0, answers:{}, tab:"survey", resultsData:null, submitting:false, resultsLoading:false, resultsAuthed:false, errors:[] };
+let state = { view:"gate", section:0, answers:{}, tab:"survey", resultsData:null, submitting:false, resultsLoading:false, resultsAuthed:false, errors:[], extraIdeas:[], dashView:"summary", selectedRespondent:0 };
 
 function g(k,d){ if(d===undefined)d=""; return state.answers[k]!==undefined?state.answers[k]:d; }
 function sv(k,v){ state.answers[k]=v; if(state.errors.length) state.errors=state.errors.filter(function(e){return e!==k;}); }
 
 async function saveToSupabase(){
-  var r=await fetch(SUPABASE_URL+"/rest/v1/responses",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Prefer":"return=minimal"},body:JSON.stringify({answers:state.answers})});
+  var payload=JSON.parse(JSON.stringify(state.answers));
+  payload._extra_ideas=state.extraIdeas;
+  var r=await fetch(SUPABASE_URL+"/rest/v1/responses",{method:"POST",headers:{"Content-Type":"application/json","apikey":SUPABASE_KEY,"Authorization":"Bearer "+SUPABASE_KEY,"Prefer":"return=minimal"},body:JSON.stringify({answers:payload})});
   if(!r.ok){var t=await r.text();throw new Error(t||r.status);}
 }
 async function fetchResponses(){
@@ -248,6 +259,47 @@ function avg(all,key){
 }
 function isErr(k){ return state.errors.indexOf(k)>=0; }
 
+// Per-section required keys
+function getSectionRequired(s){
+  var req=[];
+  if(s===0){ req.push("name","mission_combined"); }
+  if(s===1){ CUSTOMERS.forEach(function(_,i){req.push("c18_"+i,"c30_"+i);}); }
+  if(s===2){ MODULES_ES.forEach(function(_,i){req.push("mod_es_"+i);}); CONF_ITEMS.forEach(function(_,i){req.push("conf_"+i);}); }
+  if(s===3){ EXPANSION_ITEMS.forEach(function(_,i){req.push("exp_"+i);}); }
+  if(s===4){ VERT_IDEAS.forEach(function(_,i){req.push("vert_attr_"+i,"vert_diff_"+i);}); HORIZ_IDEAS.forEach(function(_,i){req.push("horiz_attr_"+i,"horiz_diff_"+i);}); req.push("capacity"); }
+  if(s===5){ req.push("comp_competitors","florida_question"); req.push("cadv_rank_imp"); COMP_ADVS.forEach(function(_,i){req.push("cadv_perf_"+i);}); }
+  return req;
+}
+function getMissingForSection(s){
+  return getSectionRequired(s).filter(function(k){
+    var v=state.answers[k];
+    if(v===undefined||v===""||v===null) return true;
+    if(k==="capacity"&&typeof v==="number"&&v<0) return true;
+    return false;
+  });
+}
+
+function friendlyLabel(k){
+  if(k==="name") return "Your name";
+  if(k==="mission_combined") return "Mosaic mission";
+  if(k==="comp_competitors") return "Largest competitors";
+  if(k==="florida_question") return "Florida question";
+  if(k==="capacity") return "Capacity for new ideas";
+  var m;
+  m=k.match(/^c18_(\d+)$/); if(m) return "12-month: "+CUSTOMERS[+m[1]];
+  m=k.match(/^c30_(\d+)$/); if(m) return "2030: "+CUSTOMERS[+m[1]];
+  m=k.match(/^mod_es_(\d+)$/);   if(m) return "End-state: "+MODULES_ES[+m[1]];
+  m=k.match(/^conf_(\d+)$/);     if(m) return "Confidence: "+CONF_ITEMS[+m[1]];
+  m=k.match(/^exp_(\d+)$/);      if(m) return "Expansion statement "+(+m[1]+1);
+  m=k.match(/^vert_attr_(\d+)$/); if(m) return "Attractiveness: "+VERT_IDEAS[+m[1]].name;
+  m=k.match(/^vert_diff_(\d+)$/); if(m) return "Build difficulty: "+VERT_IDEAS[+m[1]].name;
+  m=k.match(/^horiz_attr_(\d+)$/); if(m) return "Attractiveness: "+HORIZ_IDEAS[+m[1]].name;
+  m=k.match(/^horiz_diff_(\d+)$/); if(m) return "Build difficulty: "+HORIZ_IDEAS[+m[1]].name;
+  m=k.match(/^cadv_rank_imp$/);  if(m) return "Importance ranking (Section 6)";
+  m=k.match(/^cadv_perf_(\d+)$/); if(m) return "Performance: "+COMP_ADVS[+m[1]].name+" (Section 6)";
+  return k;
+}
+
 function rBtns(key,labels){
   return labels.map(function(lbl,j){
     var val=j+1;
@@ -257,254 +309,232 @@ function rBtns(key,labels){
     return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+key+'\','+val+')">'+lbl+'</button>';
   }).join("");
 }
-
 function ta(key,ph,optional){
   ph=ph||"Your response...";
   var errCls=(!optional&&isErr(key))?" field-error":"";
   return '<textarea class="'+errCls+'" placeholder="'+ph+'" oninput="sv(\''+key+'\',this.value)">'+g(key)+'</textarea>';
 }
 
-function getAllRequired(){
-  var req=["name","mission_combined"];
-  CUSTOMERS.forEach(function(_,i){req.push("c18_"+i,"c30_"+i);});
-  MODULES_ES.forEach(function(_,i){req.push("mod_es_"+i);});
-  CONF_ITEMS.forEach(function(_,i){req.push("conf_"+i);});
-  EXPANSION_ITEMS.forEach(function(_,i){req.push("exp_"+i);});
-  VERT_IDEAS.forEach(function(_,i){req.push("vert_attr_"+i,"vert_diff_"+i);});
-  HORIZ_IDEAS.forEach(function(_,i){req.push("horiz_attr_"+i,"horiz_diff_"+i);});
-  req.push("capacity");
-  req.push("comp_competitors","florida_question");
-  COMP_ADVS.forEach(function(_,i){req.push("cadv_imp_"+i,"cadv_perf_"+i);});
-  return req;
-}
-function getMissing(){
-  return getAllRequired().filter(function(k){
-    var v=state.answers[k];
-    if(v===undefined||v===""||v===null) return true;
-    if(k==="capacity"&&typeof v==="number"&&v<0) return true;
-    return false;
-  });
-}
-function friendlyLabel(k){
-  if(k==="name") return "Your name (Section 1)";
-  if(k==="mission_combined") return "Mosaic mission (Section 1)";
-  if(k==="comp_competitors") return "Largest competitors (Section 6)";
-  if(k==="florida_question") return "Florida question (Section 6)";
-  if(k==="capacity") return "Capacity for new ideas (Section 5)";
-  var m;
-  m=k.match(/^c18_(\d+)$/); if(m) return "12-month rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
-  m=k.match(/^c30_(\d+)$/); if(m) return "2030 rating — "+CUSTOMERS[+m[1]]+" (Section 2)";
-  m=k.match(/^mod_es_(\d+)$/);   if(m) return "End-state — "+MODULES_ES[+m[1]]+" (Section 3)";
-  m=k.match(/^conf_(\d+)$/);     if(m) return "Confidence — "+CONF_ITEMS[+m[1]]+" (Section 3)";
-  m=k.match(/^exp_(\d+)$/);      if(m) return "Expansion view "+(+m[1]+1)+" (Section 4)";
-  m=k.match(/^vert_attr_(\d+)$/); if(m) return "Attractiveness — "+VERT_IDEAS[+m[1]].name+" (Section 5)";
-  m=k.match(/^vert_diff_(\d+)$/); if(m) return "Build difficulty — "+VERT_IDEAS[+m[1]].name+" (Section 5)";
-  m=k.match(/^horiz_attr_(\d+)$/); if(m) return "Attractiveness — "+HORIZ_IDEAS[+m[1]].name+" (Section 5)";
-  m=k.match(/^horiz_diff_(\d+)$/); if(m) return "Build difficulty — "+HORIZ_IDEAS[+m[1]].name+" (Section 5)";
-  m=k.match(/^cadv_imp_(\d+)$/);  if(m) return "Importance — "+COMP_ADVS[+m[1]].name+" (Section 6)";
-  m=k.match(/^cadv_perf_(\d+)$/); if(m) return "Performance — "+COMP_ADVS[+m[1]].name+" (Section 6)";
-  return k;
-}
-
 /* ── Sections ── */
-
 function section0(){
   var nameErr=isErr("name")?" field-error":"";
-  return '<div class="card">'
-    +'<div class="card-title"><span class="icon">👤</span>About You</div>'
+  return '<div class="card"><div class="card-title"><span class="icon">👤</span>About You</div>'
     +'<div class="question"><div class="q-label">Your name</div>'
     +'<input type="text" class="single'+nameErr+'" placeholder="Full name" value="'+g("name")+'" oninput="sv(\'name\',this.value)">'
     +'</div></div>'
-    +'<div class="card">'
-    +'<div class="card-title"><span class="icon">🎯</span>Mosaic Mission</div>'
+    +'<div class="card"><div class="card-title"><span class="icon">🎯</span>Mosaic Mission</div>'
     +'<div class="question"><div class="q-label">What is the mission of Mosaic? If we are wildly successful, who will we impact and what will we do for them?</div>'
-    +ta("mission_combined","Share your vision...")
-    +'</div></div>';
+    +ta("mission_combined","Share your vision...")+'</div></div>';
 }
 
 function section1(){
-  var rows12=CUSTOMERS.map(function(c,i){
-    return '<div class="rating-item"><span class="rating-item-label">'+c+'</span><div class="rating-btns">'+rBtns("c18_"+i,CUST_LABELS)+'</div></div>';
+  function hRBtns(key){
+    return '<div style="display:flex;gap:4px;flex-wrap:wrap">'
+      +CUST_LABELS.map(function(lbl,j){
+        var val=j+1;
+        var cur=g(key,0);
+        var sel=cur===val?" sel":"";
+        var err=isErr(key)&&!sel?" field-error":"";
+        return '<button type="button" class="rBtn'+sel+err+'" style="font-size:11px;padding:5px 9px;" onclick="setR(\''+key+'\','+val+')">'+lbl+'</button>';
+      }).join("")
+      +'</div>';
+  }
+
+  var blocks = CUSTOMERS.map(function(c,i){
+    var bg = i%2===0 ? 'background:var(--bg);' : 'background:var(--bg-secondary);';
+    return '<div style="'+bg+'padding:14px 16px;border-radius:var(--radius);margin-bottom:4px">'
+      +'<div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px">'+c+'</div>'
+      +'<div style="display:flex;flex-direction:column;gap:8px">'
+      +'<div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">'
+      +'<span style="font-size:12px;font-weight:600;color:var(--text-secondary);min-width:130px;padding-top:6px;text-decoration:underline">Within 12 months</span>'
+      +hRBtns("c18_"+i)
+      +'</div>'
+      +'<div style="display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap">'
+      +'<span style="font-size:12px;font-weight:600;color:var(--text-secondary);min-width:130px;padding-top:6px;text-decoration:underline">By 2030</span>'
+      +hRBtns("c30_"+i)
+      +'</div>'
+      +'</div>'
+      +'</div>';
   }).join("");
-  var rows30=CUSTOMERS.map(function(c,i){
-    return '<div class="rating-item"><span class="rating-item-label">'+c+'</span><div class="rating-btns">'+rBtns("c30_"+i,CUST_LABELS)+'</div></div>';
-  }).join("");
-  return '<div class="card">'
-    +'<div class="card-title green"><span class="icon">🏥</span>Mosaic Customers</div>'
-    +'<div class="q-sub" style="margin-bottom:1.25rem">Specify how important it is for Mosaic to serve the following customers:</div>'
-    +'<div class="question"><span class="q-underline">Within the next 12 months</span>'
-    +'<div>'+rows12+'</div>'
-    +'<div style="margin-top:0.75rem"><div class="q-sub">Any other customer important to serve within the next 12 months? <span class="optional-tag">(optional)</span></div>'
-    +ta("cust_other_12","Other customers...",true)+'</div></div>'
-    +'<div class="question"><span class="q-underline">By 2030</span>'
-    +'<div>'+rows30+'</div>'
-    +'<div style="margin-top:0.75rem"><div class="q-sub">Any other customer that is important to serve by 2030? <span class="optional-tag">(optional)</span></div>'
-    +ta("cust_other_30","Other customers...",true)+'</div></div>'
+
+  return '<div class="card"><div class="card-title green"><span class="icon">🏥</span>Mosaic Customers</div>'
+    +'<div class="q-sub" style="margin-bottom:0.5rem">Specify how important it is for Mosaic to serve the following customers:</div>'
+    +blocks
+    +'<div style="margin-top:1.25rem">'
+    +'<div class="q-sub">Any other customer important to serve within the next 12 months? <span class="optional-tag">(optional)</span></div>'
+    +ta("cust_other_12","Other customers...",true)
+    +'<div class="q-sub" style="margin-top:0.75rem">Any other customer that is important to serve by 2030? <span class="optional-tag">(optional)</span></div>'
+    +ta("cust_other_30","Other customers...",true)
+    +'</div>'
     +'</div>';
 }
 
 function section2(){
   var infoBox='<div class="info-box">'
-    +'<strong>Table Stakes:</strong> Must-have features to be considered<br>'
+    +'<strong>Table Stakes:</strong> Have to have it — minimum functionality to be considered a viable competitor<br>'
     +'<strong>Competitive Parity:</strong> No obvious gaps to 2–3 competitor alternatives<br>'
     +'<strong>Market Leading:</strong> Measurably better on dimensions the market cares about / we win comparisons<br>'
     +'<strong>Category Defining:</strong> Setting new standards for the market (rare, expensive, and usually only worth targeting on 1–2 features max)'
     +'</div>';
-
   var moduleCards=MODULES_ES.map(function(m,i){
     var esErr=isErr("mod_es_"+i);
     return '<div class="sub-card" style="background:#f8faff;border-left-color:var(--accent)">'
       +'<div class="sub-card-title">'+m+'</div>'
       +'<div class="q-sub" style="margin-top:8px">Target end-state by 2030</div>'
       +'<div class="rating-btns">'+END_STATE_LABELS.map(function(lbl,j){
-        var sel=g("mod_es_"+i)===j+1?" sel":"";
-        var err=esErr&&!sel?" field-error":"";
+        var sel=g("mod_es_"+i)===j+1?" sel":""; var err=esErr&&!sel?" field-error":"";
         return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'mod_es_'+i+'\','+(j+1)+')">'+lbl+'</button>';
-      }).join("")+'</div>'
-      +'</div>';
+      }).join("")+'</div></div>';
   }).join("");
-
   var confRows=CONF_ITEMS.map(function(item,i){
     var err=isErr("conf_"+i);
     return '<div class="rating-item"><span class="rating-item-label">'+item+'</span>'
       +'<div class="rating-btns">'+CONF_LABELS.map(function(lbl,j){
-        var sel=g("conf_"+i)===j+1?" sel":"";
-        var e=err&&!sel?" field-error":"";
+        var sel=g("conf_"+i)===j+1?" sel":""; var e=err&&!sel?" field-error":"";
         return '<button type="button" class="rBtn'+sel+e+'" onclick="setR(\'conf_'+i+'\','+(j+1)+')">'+lbl+'</button>';
       }).join("")+'</div></div>';
   }).join("");
-
-  return '<div class="card">'
-    +'<div class="card-title"><span class="icon">🛠</span>Mosaic Core Reading Platform</div>'
-    +'<div class="q-label" style="margin-bottom:0.5rem">For each module, specify what you think the target end-state should be by 2030:</div>'
-    +'<div class="q-sub" style="margin-bottom:0.75rem"></div>'
-    +infoBox+moduleCards
-    +'</div>'
-    +'<div class="card">'
-    +'<div class="card-title teal"><span class="icon">📊</span>Delivery Confidence</div>'
-    +'<div class="q-label" style="margin-bottom:1rem">How confident are you in our ability to deliver the following at "current course and speed"?</div>'
-    +'<div>'+confRows+'</div>'
-    +'</div>';
+  return '<div class="card"><div class="card-title"><span class="icon">🛠</span>Mosaic Core Reading Platform</div>'
+    +'<div class="q-label" style="margin-bottom:0.75rem">For each module, specify what you think the target end-state should be by 2030:</div>'
+    +infoBox+moduleCards+'</div>'
+    +'<div class="card"><div class="card-title teal"><span class="icon">📊</span>Delivery Confidence</div>'
+    +'<div class="q-label" style="margin-bottom:1rem">How confident are you in our current ability to do the following:</div>'
+    +'<div>'+confRows+'</div></div>';
 }
 
 function section3(){
-  // Expansion strategy with conditional follow-up
   var expCards=EXPANSION_ITEMS.map(function(item,i){
     var agreeVal=g("exp_"+i,0);
-    var agreeOrStrongly = agreeVal===4||agreeVal===5;
+    var agreeOrStrongly=agreeVal===4||agreeVal===5;
     var err=isErr("exp_"+i);
     var followUp="";
     if(agreeOrStrongly){
-      followUp='<div class="follow-up">'
-        +'<div class="q-sub">How strong does our offering need to be in this area?</div>'
+      followUp='<div class="follow-up"><div class="q-sub">How strong does our offering need to be in this area?</div>'
         +'<div class="rating-btns">'+END_STATE_LABELS.map(function(lbl,j){
           var sel=g("exp_str_"+i)===j+1?" sel":"";
           return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'exp_str_'+i+'\','+(j+1)+')">'+lbl+'</button>';
-        }).join("")+'</div>'
-        +'</div>';
+        }).join("")+'</div></div>';
     }
     return '<div class="sub-card" style="background:#f8faff;border-left-color:var(--accent);margin-bottom:0.75rem">'
       +'<div class="sub-card-desc" style="margin-bottom:8px;font-size:13px;color:var(--text)">'+item+'</div>'
       +'<div class="rating-btns">'+AGREE_LABELS.map(function(lbl,j){
-        var sel=agreeVal===j+1?" sel":"";
-        var e=err&&!sel?" field-error":"";
+        var sel=agreeVal===j+1?" sel":""; var e=err&&!sel?" field-error":"";
         return '<button type="button" class="rBtn'+sel+e+'" onclick="setR(\'exp_'+i+'\','+(j+1)+')">'+lbl+'</button>';
-      }).join("")+'</div>'
-      +followUp
-      +'</div>';
+      }).join("")+'</div>'+followUp+'</div>';
   }).join("");
-
-  return '<div class="card">'
-    +'<div class="card-title purple"><span class="icon">🗺</span>Future Products — How Should Mosaic Expand?</div>'
+  return '<div class="card"><div class="card-title purple"><span class="icon">🗺️</span>Future Products — How Should Mosaic Expand?</div>'
     +'<div class="q-sub" style="margin-bottom:1rem">For each statement, indicate how strongly you agree or disagree. If you agree or strongly agree, you will be asked how strong our offering needs to be.</div>'
-    +expCards
+    +expCards+'</div>';
+}
+
+function ideaCardHtml(idea,attrKey,diffKey,color){
+  var icon=idea.icon?'<span class="sub-card-icon">'+idea.icon+'</span>':'';
+  return '<div class="sub-card '+color+'">'
+    +'<div class="sub-card-header">'+icon+'<div class="sub-card-title">'+idea.name+'</div></div>'
+    +'<div class="sub-card-desc"><strong>Description:</strong> '+idea.desc+'</div>'
+    +'<div class="sub-card-value"><strong>Value to customer:</strong> '+idea.value+'</div>'
+    +'<div class="rating-item"><span class="rating-item-label">Attractiveness for customer / willingness to pay</span>'
+    +'<div class="rating-btns">'+ATTRACT_LABELS.map(function(lbl,j){
+      var sel=g(attrKey)===j+1?" sel":""; var err=isErr(attrKey)&&!sel?" field-error":"";
+      return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+attrKey+'\','+(j+1)+')">'+lbl+'</button>';
+    }).join("")+'</div></div>'
+    +'<div class="rating-item"><span class="rating-item-label">Difficulty to build for current Mosaic team</span>'
+    +'<div class="rating-btns">'+DIFF_LABELS.map(function(lbl,j){
+      var sel=g(diffKey)===j+1?" sel":""; var err=isErr(diffKey)&&!sel?" field-error":"";
+      return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+diffKey+'\','+(j+1)+')">'+lbl+'</button>';
+    }).join("")+'</div></div></div>';
+}
+
+function extraIdeaCardHtml(idx){
+  var idea=state.extraIdeas[idx];
+  return '<div class="sub-card teal" style="position:relative">'
+    +'<button type="button" onclick="removeExtraIdea('+idx+')" style="position:absolute;top:8px;right:8px;background:none;border:none;cursor:pointer;font-size:16px;color:var(--text-light)">✕</button>'
+    +'<div class="sub-card-title" style="margin-bottom:6px">Your idea #'+(idx+1)+'</div>'
+    +'<div class="q-sub" style="margin-bottom:4px">Describe your idea</div>'
+    +'<textarea style="min-height:60px;margin-bottom:10px" placeholder="Describe the product idea..." oninput="updateExtra('+idx+',\'desc\',this.value)">'+(idea.desc||'')+'</textarea>'
+    +'<div class="rating-item"><span class="rating-item-label">Attractiveness for customer / willingness to pay</span>'
+    +'<div class="rating-btns">'+ATTRACT_LABELS.map(function(lbl,j){ var sel=(idea.attr||0)===j+1?" sel":""; return '<button type="button" class="rBtn'+sel+'" onclick="updateExtraR('+idx+',\'attr\','+(j+1)+')">'+lbl+'</button>'; }).join("")+'</div></div>'
+    +'<div class="rating-item" style="border-bottom:none"><span class="rating-item-label">Difficulty to build for current Mosaic team</span>'
+    +'<div class="rating-btns">'+DIFF_LABELS.map(function(lbl,j){ var sel=(idea.diff||0)===j+1?" sel":""; return '<button type="button" class="rBtn'+sel+'" onclick="updateExtraR('+idx+',\'diff\','+(j+1)+')">'+lbl+'</button>'; }).join("")+'</div></div>'
     +'</div>';
 }
 
 function section4(){
-  function ideaCard(idea,attrKey,diffKey,color){
-    return '<div class="sub-card '+color+'">'
-      +'<div class="sub-card-title">'+idea.name+'</div>'
-      +'<div class="sub-card-desc"><strong>Description:</strong> '+idea.desc+'</div>'
-      +'<div class="sub-card-value"><strong>Value to customer:</strong> '+idea.value+'</div>'
-      +'<div class="rating-item"><span class="rating-item-label">Attractiveness for customer / willingness to pay</span>'
-      +'<div class="rating-btns">'+ATTRACT_LABELS.map(function(lbl,j){
-        var sel=g(attrKey)===j+1?" sel":""; var err=isErr(attrKey)&&!sel?" field-error":"";
-        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+attrKey+'\','+(j+1)+')">'+lbl+'</button>';
-      }).join("")+'</div></div>'
-      +'<div class="rating-item"><span class="rating-item-label">Difficulty to build for current Mosaic team</span>'
-      +'<div class="rating-btns">'+DIFF_LABELS.map(function(lbl,j){
-        var sel=g(diffKey)===j+1?" sel":""; var err=isErr(diffKey)&&!sel?" field-error":"";
-        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\''+diffKey+'\','+(j+1)+')">'+lbl+'</button>';
-      }).join("")+'</div></div>'
-      +'</div>';
-  }
-
-  var vertCards=VERT_IDEAS.map(function(idea,i){ return ideaCard(idea,"vert_attr_"+i,"vert_diff_"+i,VERT_COLORS[i%VERT_COLORS.length]); }).join("");
-  var horizCards=HORIZ_IDEAS.map(function(idea,i){ return ideaCard(idea,"horiz_attr_"+i,"horiz_diff_"+i,HORIZ_COLORS[i%HORIZ_COLORS.length]); }).join("");
+  var vertCards=VERT_IDEAS.map(function(idea,i){ return ideaCardHtml(idea,"vert_attr_"+i,"vert_diff_"+i,VERT_COLORS[i%VERT_COLORS.length]); }).join("");
+  var horizCards=HORIZ_IDEAS.map(function(idea,i){ return ideaCardHtml(idea,"horiz_attr_"+i,"horiz_diff_"+i,HORIZ_COLORS[i%HORIZ_COLORS.length]); }).join("");
   var capErr=isErr("capacity");
-
-  var otherCard='<div class="card">'
-    +'<div class="card-title teal"><span class="icon">✏️</span>Other Idea <span class="optional-tag" style="font-size:13px;font-weight:400;margin-left:4px">(optional)</span></div>'
-    +'<div class="q-sub" style="margin-bottom:1rem">Have an idea not listed above? Describe it and rate it below.</div>'
-    +'<div class="question"><div class="q-label">Describe your idea</div>'+ta("other_idea_desc","Describe the product idea...",true)+'</div>'
-    +'<div class="rating-item"><span class="rating-item-label">Attractiveness for customer / willingness to pay</span>'
-    +'<div class="rating-btns">'+ATTRACT_LABELS.map(function(lbl,j){ var sel=g("other_attr")===j+1?" sel":""; return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'other_attr\','+(j+1)+')">'+lbl+'</button>'; }).join("")+'</div></div>'
-    +'<div class="rating-item" style="border-bottom:none"><span class="rating-item-label">Difficulty to build for current Mosaic team</span>'
-    +'<div class="rating-btns">'+DIFF_LABELS.map(function(lbl,j){ var sel=g("other_diff")===j+1?" sel":""; return '<button type="button" class="rBtn'+sel+'" onclick="setR(\'other_diff\','+(j+1)+')">'+lbl+'</button>'; }).join("")+'</div></div>'
-    +'</div>';
-
-  return '<div class="card">'
-    +'<div class="card-title green"><span class="icon">💡</span>Vertical product ideas — expansion within Radiology</div>'
-    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness and build difficulty.</div>'
-    +vertCards+'</div>'
-    +'<div class="card">'
-    +'<div class="card-title gold"><span class="icon">🌐</span>Horizontal product ideas — expansion beyond Radiology</div>'
-    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness and build difficulty.</div>'
-    +horizCards+'</div>'
-    +otherCard
-    +'<div class="card">'
-    +'<div class="card-title purple"><span class="icon">⚡</span>Capacity</div>'
+  var extraCards=state.extraIdeas.map(function(_,idx){ return extraIdeaCardHtml(idx); }).join("");
+  return '<div class="card"><div class="card-title green"><span class="icon">💡</span>Vertical product ideas — expansion within Radiology</div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness and build difficulty.</div>'+vertCards+'</div>'
+    +'<div class="card"><div class="card-title gold"><span class="icon">🌐</span>Horizontal product ideas — expansion beyond Radiology</div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">For each idea, rate attractiveness and build difficulty.</div>'+horizCards+'</div>'
+    +'<div class="card"><div class="card-title teal"><span class="icon">✏️</span>Your Own Ideas <span class="optional-tag" style="font-size:13px;font-weight:400;margin-left:4px">(optional)</span></div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">Have ideas not listed above? Add them below.</div>'
+    +extraCards
+    +'<div style="margin-top:'+(state.extraIdeas.length>0?'0.75rem':'0')+'">'
+    +'<button type="button" class="btn add-more" onclick="addExtraIdea()">+ Add an idea</button></div></div>'
+    +'<div class="card"><div class="card-title purple"><span class="icon">⚡</span>Capacity</div>'
     +'<div class="question"><div class="q-label">With our current capacity, how many new ideas can we take on in the next 12 months?</div>'
     +'<div class="rating-btns">'+CAPACITY_LABELS.map(function(lbl,j){
-      var sel=g("capacity",-1)===j?" sel":"";
-      var err=capErr&&!sel?" field-error":"";
+      var sel=g("capacity",-1)===j?" sel":""; var err=capErr&&!sel?" field-error":"";
       return '<button type="button" class="rBtn'+sel+err+'" onclick="setCap('+j+')">'+lbl+'</button>';
-    }).join("")+'</div></div>'
-    +'</div>';
+    }).join("")+'</div></div></div>';
 }
 
 function section5(){
-  var advCards=COMP_ADVS.map(function(adv,i){
-    return '<div class="sub-card">'
-      +'<div class="sub-card-title">'+adv.name+'</div>'
-      +'<div class="sub-card-desc">'+adv.desc+'</div>'
-      +'<div class="rating-item"><span class="rating-item-label">Importance to Mosaic\'s success</span>'
-      +'<div class="rating-btns">'+IMP_LABELS.map(function(lbl,j){
-        var sel=g("cadv_imp_"+i)===j+1?" sel":""; var err=isErr("cadv_imp_"+i)&&!sel?" field-error":"";
-        return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'cadv_imp_'+i+'\','+(j+1)+')">'+lbl+'</button>';
-      }).join("")+'</div></div>'
-      +'<div class="rating-item"><span class="rating-item-label">Our current performance</span>'
+  var impOrder = state.answers.cadv_rank_imp || COMP_ADVS.map(function(_,i){return i;});
+  var COLORS = ["#1a5faa","#0e7c6a","#6d28d9","#c05621","#a0620a","#be185d","#0891b2"];
+
+  function rankList(listId, orderArr, storeKey){
+    var hasErr = isErr(storeKey);
+    var items = orderArr.map(function(idx, pos){
+      var adv = COMP_ADVS[idx];
+      var col = COLORS[idx % COLORS.length];
+      return '<div class="drag-item" draggable="true" data-idx="'+idx+'" data-list="'+listId+'" data-store="'+storeKey+'"'
+        +' style="background:var(--bg);border:1.5px solid var(--border-med);border-left:4px solid '+col+';border-radius:var(--radius);padding:10px 14px;margin-bottom:6px;cursor:grab;display:flex;align-items:flex-start;gap:10px;user-select:none;transition:opacity 0.15s"'
+        +' ondragstart="onDragStart(event)" ondragover="onDragOver(event)" ondrop="onDrop(event)" ondragend="onDragEnd(event)">'
+        +'<span style="font-size:18px;color:var(--text-light);flex-shrink:0;line-height:1">⠿</span>'
+        +'<div style="flex:1">'
+        +'<div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">'+adv.name+'</div>'
+        +'<div style="font-size:12px;color:var(--text-secondary);line-height:1.4">'+adv.desc+'</div>'
+        +'</div>'
+        +'<span style="font-size:12px;font-weight:700;color:'+col+';flex-shrink:0;padding-top:1px">#'+(pos+1)+'</span>'
+        +'</div>';
+    }).join("");
+    var border = hasErr ? 'border:1.5px solid var(--red);border-radius:var(--radius);padding:6px;' : '';
+    return '<div id="'+listId+'" style="'+border+'" ondragover="event.preventDefault()">'+items+'</div>';
+  }
+
+  var perfRows = COMP_ADVS.map(function(adv,i){
+    return '<div class="rating-item">'
+      +'<span class="rating-item-label" style="font-size:13px;color:var(--text);font-weight:500">'+adv.name+'</span>'
       +'<div class="rating-btns">'+PERF_LABELS.map(function(lbl,j){
-        var sel=g("cadv_perf_"+i)===j+1?" sel":""; var err=isErr("cadv_perf_"+i)&&!sel?" field-error":"";
+        var sel=g("cadv_perf_"+i)===j+1?" sel":"";
+        var err=isErr("cadv_perf_"+i)&&!sel?" field-error":"";
         return '<button type="button" class="rBtn'+sel+err+'" onclick="setR(\'cadv_perf_'+i+'\','+(j+1)+')">'+lbl+'</button>';
-      }).join("")+'</div></div>'
+      }).join("")+'</div>'
       +'</div>';
   }).join("");
 
-  return '<div class="card">'
-    +'<div class="card-title pink"><span class="icon">🏆</span>Competitive Advantage</div>'
-    +'<div class="question"><div class="q-label">Who are our largest competitors and why?</div>'
-    +ta("comp_competitors","Name competitors and explain...")+'</div>'
-    +'<div class="q-label" style="margin-bottom:1rem">For each competitive advantage, rate importance and our current performance:</div>'
-    +advCards
-    +'<div class="question" style="margin-top:1rem"><div class="q-sub">Any competitive advantages we\'re missing? <span class="optional-tag">(optional)</span></div>'
-    +ta("comp_other","Other competitive advantages...",true)+'</div>'
+  return '<div class="card"><div class="card-title pink"><span class="icon">🏆</span>Competitors</div>'
+    +'<div class="question"><div class="q-label">Who are our largest competitors and why?</div>'+ta("comp_competitors","Name competitors and explain...")+'</div>'
     +'</div>'
-    +'<div class="card">'
-    +'<div class="card-title orange"><span class="icon">🌴</span>Final Question</div>'
-    +'<div class="question"><div class="q-label">What is the one thing you don\'t want to leave Florida without discussing?</div>'
-    +ta("florida_question","Your answer...")+'</div>'
+    +'<div class="card"><div class="card-title pink"><span class="icon">🥇</span>Sources of competitive advantage</div>'
+    +'<div class="q-label" style="margin-bottom:0.25rem">Rank these competitive advantages from most to least important to Mosaic\'s success.</div>'
+    +'<div class="q-sub" style="margin-bottom:1rem">Drag and drop into your preferred order. #1 = most important.</div>'
+    +rankList("rank-imp", impOrder, "cadv_rank_imp")
+    +'<div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)">'
+    +'<div class="q-label" style="margin-bottom:0.25rem">Rate our current strength on each competitive advantage:</div>'
+    +'<div class="q-sub" style="margin-bottom:0.75rem">Very weak → Very strong</div>'
+    +'<div>'+perfRows+'</div>'
+    +'</div>'
+    +'<div style="margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border)">'
+    +'<div class="q-sub">Any other sources of competitive advantage that are critical to Mosaic\'s success? <span class="optional-tag">(optional)</span></div>'
+    +ta("comp_other","Other competitive advantages...",true)
+    +'</div>'
+    +'</div>'
+    +'<div class="card"><div class="card-title orange"><span class="icon">🌴</span>Final Question</div>'
+    +'<div class="question"><div class="q-label">What is the one thing you don\'t want to leave Florida without discussing?</div>'+ta("florida_question","Your answer...")+'</div>'
     +'</div>';
 }
 
@@ -518,24 +548,107 @@ function renderSurvey(){
     var more=state.errors.length>8?'<li>...and '+(state.errors.length-8)+' more</li>':"";
     valBanner='<div class="val-banner">Please complete the following before submitting:<ul>'+items+more+'</ul></div>';
   }
-  var submitBtn=isLast
-    ?'<button type="button" class="btn primary" onclick="submitSurvey()" '+(state.submitting?"disabled":"")+'>'+
-      (state.submitting?'<span class="spinner"></span> Submitting...':'Submit survey')+'</button>'
+  var nextBtn=isLast
+    ?'<button type="button" class="btn primary" onclick="submitSurvey()" '+(state.submitting?"disabled":"")+'>'+( state.submitting?'<span class="spinner"></span> Submitting...':'Submit survey')+'</button>'
     :'<button type="button" class="btn primary" onclick="nextSection()">Next →</button>';
-  return '<div class="progress-wrap">'
-    +'<div class="progress-steps">'+steps+'</div>'
-    +'<div class="progress-label">Section '+(state.section+1)+' of '+SECTIONS.length+' — <strong>'+SECTIONS[state.section]+'</strong></div>'
-    +'</div>'+valBanner+fns[state.section]()
-    +'<div class="nav-row"><button type="button" class="btn" onclick="prevSection()" '+(state.section===0?"disabled":"")+'>← Back</button>'+submitBtn+'</div>';
+  return '<div class="progress-wrap"><div class="progress-steps">'+steps+'</div>'
+    +'<div class="progress-label">Section '+(state.section+1)+' of '+SECTIONS.length+' — <strong>'+SECTIONS[state.section]+'</strong></div></div>'
+    +valBanner+fns[state.section]()
+    +'<div class="nav-row"><button type="button" class="btn" onclick="prevSection()" '+(state.section===0?"disabled":"")+'>← Back</button>'+nextBtn+'</div>';
 }
 
-function renderDashboard(){
-  if(state.resultsLoading) return '<div class="loading"><span class="spinner"></span>Loading responses...</div>';
-  var all=state.resultsData||[];
-  if(!all.length) return '<div class="no-resp" style="padding:2rem;text-align:center">No responses submitted yet.</div>';
-  var latest=new Date(all[all.length-1].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
-  var names=all.map(function(r,i){ return r.answers.name||"Respondent "+(i+1); });
+/* ── Dashboard ── */
 
+function labelFor(key, val){
+  var m;
+  m=key.match(/^c18_|^c30_/); if(m) return CUST_LABELS[val-1]||val;
+  m=key.match(/^mod_es_/); if(m) return END_STATE_LABELS[val-1]||val;
+  m=key.match(/^conf_/); if(m) return CONF_LABELS[val-1]||val;
+  m=key.match(/^exp_\d+$/); if(m) return AGREE_LABELS[val-1]||val;
+  m=key.match(/^exp_str_/); if(m) return END_STATE_LABELS[val-1]||val;
+  m=key.match(/^vert_attr_|^horiz_attr_/); if(m) return ATTRACT_LABELS[val-1]||val;
+  m=key.match(/^vert_diff_|^horiz_diff_/); if(m) return DIFF_LABELS[val-1]||val;
+  m=key.match(/^cadv_imp_/); if(m) return IMP_LABELS[val-1]||val;
+  m=key.match(/^cadv_perf_/); if(m) return PERF_LABELS[val-1]||val;
+  if(key==="capacity") return CAPACITY_LABELS[val]||val;
+  return val;
+}
+
+function renderRespondentView(all, names){
+  var idx=state.selectedRespondent;
+  if(idx>=all.length) idx=0;
+  var r=all[idx];
+  var a=r.answers;
+
+  function row(label, key){
+    var v=a[key];
+    if(v===undefined||v===""||v===null) return '<div class="resp-detail-row"><span class="resp-detail-label">'+label+'</span><span class="resp-detail-val" style="color:var(--text-light)">—</span></div>';
+    var display=(typeof v==="number")?('<span class="pill">'+labelFor(key,v)+'</span>'):v;
+    return '<div class="resp-detail-row"><span class="resp-detail-label">'+label+'</span><span class="resp-detail-val">'+display+'</span></div>';
+  }
+
+  var selector='<div class="resp-select-row">'
+    +'<label style="font-size:13px;color:var(--text-secondary);font-weight:500">Viewing:</label>'
+    +'<select onchange="setRespondent(this.value)">'+names.map(function(n,i){ return '<option value="'+i+'"'+(i===idx?' selected':'')+'>'+n+'</option>'; }).join("")+'</select>'
+    +'<span style="font-size:12px;color:var(--text-light)">Submitted '+new Date(r.submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})+'</span>'
+    +'</div>';
+
+  var mission='<div class="resp-detail-section"><h4>Mission</h4>'+row("Mission statement","mission_combined")+'</div>';
+
+  var custRows12=CUSTOMERS.map(function(c,i){ return row(c,"c18_"+i); }).join("");
+  var custRows30=CUSTOMERS.map(function(c,i){ return row(c,"c30_"+i); }).join("");
+  var customers='<div class="resp-detail-section"><h4>Customers — within 12 months</h4>'+custRows12+'</div>'
+    +'<div class="resp-detail-section"><h4>Customers — by 2030</h4>'+custRows30+'</div>';
+
+  var modRows=MODULES_ES.map(function(m,i){ return row(m,"mod_es_"+i); }).join("");
+  var confRows=CONF_ITEMS.map(function(c,i){ return row(c,"conf_"+i); }).join("");
+  var platform='<div class="resp-detail-section"><h4>Core Platform End-States</h4>'+modRows+'</div>'
+    +'<div class="resp-detail-section"><h4>Delivery Confidence</h4>'+confRows+'</div>';
+
+  var expRows=EXPANSION_ITEMS.map(function(item,i){
+    var v=a["exp_"+i];
+    var str=a["exp_str_"+i];
+    var display=v?(AGREE_LABELS[v-1]||v):"—";
+    if(str&&(v===4||v===5)) display+=' → Strength needed: '+END_STATE_LABELS[str-1];
+    return '<div class="resp-detail-row"><span class="resp-detail-label" style="font-size:12px">'+item+'</span><span class="resp-detail-val"><span class="pill">'+display+'</span></span></div>';
+  }).join("");
+  var expansion='<div class="resp-detail-section"><h4>Expansion Strategy</h4>'+expRows+'</div>';
+
+  var vertRows=VERT_IDEAS.map(function(idea,i){
+    var attr=a["vert_attr_"+i]; var diff=a["vert_diff_"+i];
+    var attrTxt=attr?(ATTRACT_LABELS[attr-1]||attr):"—";
+    var diffTxt=diff?(DIFF_LABELS[diff-1]||diff):"—";
+    return '<div class="resp-detail-row"><span class="resp-detail-label">'+idea.icon+' '+idea.name+'</span>'
+      +'<span class="resp-detail-val" style="font-size:12px">Attractiveness: <strong>'+attrTxt+'</strong> &nbsp; Difficulty: <strong>'+diffTxt+'</strong></span></div>';
+  }).join("");
+  var horizRows=HORIZ_IDEAS.map(function(idea,i){
+    var attr=a["horiz_attr_"+i]; var diff=a["horiz_diff_"+i];
+    var attrTxt=attr?(ATTRACT_LABELS[attr-1]||attr):"—";
+    var diffTxt=diff?(DIFF_LABELS[diff-1]||diff):"—";
+    return '<div class="resp-detail-row"><span class="resp-detail-label">'+idea.icon+' '+idea.name+'</span>'
+      +'<span class="resp-detail-val" style="font-size:12px">Attractiveness: <strong>'+attrTxt+'</strong> &nbsp; Difficulty: <strong>'+diffTxt+'</strong></span></div>';
+  }).join("");
+  var extras=(a._extra_ideas&&a._extra_ideas.length)?a._extra_ideas.map(function(idea){ return '<div class="resp-detail-row"><span class="resp-detail-label">'+( idea.desc||"(no description)")+'</span><span class="resp-detail-val" style="font-size:12px">'+(idea.attr?'Attractiveness: '+(ATTRACT_LABELS[idea.attr-1]||idea.attr)+' &nbsp; ':'')+(idea.diff?'Difficulty: '+(DIFF_LABELS[idea.diff-1]||idea.diff):'')+'</span></div>'; }).join(""):"<div class='no-resp'>None added</div>";
+  var capVal=a["capacity"];
+  var capTxt=capVal!==undefined?CAPACITY_LABELS[capVal]:"—";
+  var products='<div class="resp-detail-section"><h4>Vertical Ideas</h4>'+vertRows+'</div>'
+    +'<div class="resp-detail-section"><h4>Horizontal Ideas</h4>'+horizRows+'</div>'
+    +'<div class="resp-detail-section"><h4>User-submitted ideas</h4>'+extras+'</div>'
+    +'<div class="resp-detail-section"><h4>Capacity</h4><div class="resp-detail-row"><span class="resp-detail-label">New ideas in next 12 months</span><span class="resp-detail-val"><span class="pill">'+capTxt+'</span></span></div></div>';
+
+  var impRank=a["cadv_rank_imp"]||COMP_ADVS.map(function(_,i){return i;});
+  var impRows=impRank.map(function(idx,pos){ return '<div class="resp-detail-row"><span class="resp-detail-label">#'+(pos+1)+' — '+COMP_ADVS[idx].name+'</span></div>'; }).join("");
+  var perfRows=COMP_ADVS.map(function(adv,i){ var perf=a["cadv_perf_"+i]; var perfTxt=perf?(PERF_LABELS[perf-1]||perf):"—"; return '<div class="resp-detail-row"><span class="resp-detail-label">'+adv.name+'</span><span class="resp-detail-val"><span class="pill">'+perfTxt+'</span></span></div>'; }).join("");
+  var competitive='<div class="resp-detail-section"><h4>Competitors</h4>'+row("Who are our largest competitors?","comp_competitors")+'</div>'
+    +'<div class="resp-detail-section"><h4>Importance ranking</h4>'+impRows+'</div>'
+    +'<div class="resp-detail-section"><h4>Performance ratings</h4>'+perfRows+'</div>';
+
+  var florida='<div class="resp-detail-section"><h4>Florida Question</h4>'+row("What not to leave Florida without discussing","florida_question")+'</div>';
+
+  return '<div class="dash-card">'+selector+mission+customers+platform+expansion+products+competitive+florida+'</div>';
+}
+
+function renderSummaryView(all, names){
   function openText(key,label){
     var entries=all.map(function(r,i){ return r.answers[key]?'<div class="resp-item"><strong>'+names[i]+':</strong> '+r.answers[key]+'</div>':""; }).join("");
     return '<div class="dash-card"><h3>'+label+'</h3>'+(entries||"<div class='no-resp'>No responses yet</div>")+'</div>';
@@ -548,30 +661,63 @@ function renderDashboard(){
         +'<div class="bar-track"><div class="bar-fill" style="width:'+(a==="—"?0:Math.round(parseFloat(a)/maxScale*100))+'%"></div></div></div>';
     }).join("")+'</div>';
   }
+  var extraIdeasHtml='<div class="dash-card"><h3>User-submitted ideas</h3>'
+    +(all.map(function(r,i){ var ideas=r.answers._extra_ideas; if(!ideas||!ideas.length) return ""; return ideas.map(function(idea){ if(!idea.desc) return ""; return '<div class="resp-item"><strong>'+names[i]+':</strong> '+idea.desc+(idea.attr?' — Attractiveness: '+(ATTRACT_LABELS[idea.attr-1]||idea.attr):'')+(idea.diff?' — Difficulty: '+(DIFF_LABELS[idea.diff-1]||idea.diff):'')+'</div>'; }).join(""); }).join("")||"<div class='no-resp'>None submitted</div>")
+    +'</div>';
 
-  return '<div class="stat-row">'
-    +'<div class="stat"><div class="stat-val">'+all.length+'</div><div class="stat-lbl">Total responses</div></div>'
-    +'<div class="stat"><div class="stat-val">'+latest+'</div><div class="stat-lbl">Latest submission</div></div>'
-    +'</div>'
-    +'<div class="dash-card"><h3>Respondents</h3>'+names.map(function(n,i){ return '<div class="resp-item">'+n+' <span style="color:var(--text-light);font-size:12px">— '+new Date(all[i].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric"})+'</span></div>'; }).join("")+'</div>'
-    +openText("mission_combined","Mission statements")
+  return openText("mission_combined","Mission statements")
     +barChart("Customer importance — within 12 months (avg)",CUSTOMERS,function(i){return"c18_"+i;},5)
     +barChart("Customer importance — by 2030 (avg)",CUSTOMERS,function(i){return"c30_"+i;},5)
     +openText("cust_other_12","Other customers — next 12 months")
     +openText("cust_other_30","Other customers — by 2030")
     +barChart("Module end-state target (avg, 1–4)",MODULES_ES,function(i){return"mod_es_"+i;},4)
     +barChart("Delivery confidence (avg, 1–5)",CONF_ITEMS,function(i){return"conf_"+i;},5)
-    +barChart("Expansion strategy — agreement (avg, 1–5)",EXPANSION_ITEMS.map(function(_,i){return"Statement "+(i+1);}),function(i){return"exp_"+i;},5)
-    +barChart("Vertical ideas — attractiveness (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_attr_"+i;},6)
-    +barChart("Vertical ideas — build difficulty (avg)",VERT_IDEAS.map(function(x){return x.name;}),function(i){return"vert_diff_"+i;},6)
-    +barChart("Horizontal ideas — attractiveness (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_attr_"+i;},6)
-    +barChart("Horizontal ideas — build difficulty (avg)",HORIZ_IDEAS.map(function(x){return x.name;}),function(i){return"horiz_diff_"+i;},6)
-    +openText("other_idea_desc","Other ideas submitted")
-    +barChart("Competitive advantage — importance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_imp_"+i;},5)
-    +barChart("Competitive advantage — current performance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_perf_"+i;},5)
-    +openText("comp_competitors","Largest competitors")
+    +barChart("Expansion strategy — agreement (avg, 1–5)",["Early imaging lifecycle","Downstream imaging lifecycle","Horizontal / cross-specialty","Medicine 3.0"],function(i){return"exp_"+i;},5)
+    +barChart("Vertical ideas — attractiveness (avg)",VERT_IDEAS.map(function(x){return x.icon+" "+x.name;}),function(i){return"vert_attr_"+i;},6)
+    +barChart("Vertical ideas — build difficulty (avg)",VERT_IDEAS.map(function(x){return x.icon+" "+x.name;}),function(i){return"vert_diff_"+i;},6)
+    +barChart("Horizontal ideas — attractiveness (avg)",HORIZ_IDEAS.map(function(x){return x.icon+" "+x.name;}),function(i){return"horiz_attr_"+i;},6)
+    +barChart("Horizontal ideas — build difficulty (avg)",HORIZ_IDEAS.map(function(x){return x.icon+" "+x.name;}),function(i){return"horiz_diff_"+i;},6)
+    +extraIdeasHtml
+    +(function(){
+      function rankChart(title, storeKey){
+        var scores=COMP_ADVS.map(function(){return [];});
+        all.forEach(function(r){ var order=r.answers[storeKey]; if(!order||!order.length) return; order.forEach(function(idx,pos){ if(scores[idx]) scores[idx].push(pos+1); }); });
+        var rows=COMP_ADVS.map(function(adv,i){
+          var arr=scores[i]; var a=arr.length?(arr.reduce(function(a,b){return a+b;},0)/arr.length).toFixed(1):"—";
+          return '<div class="bar-row"><span class="bar-label">'+adv.name+'</span><span class="bar-val">'+(a==="—"?"—":"#"+a)+'</span>'
+            +'<div class="bar-track"><div class="bar-fill" style="width:'+(a==="—"?0:Math.round((COMP_ADVS.length-parseFloat(a)+1)/COMP_ADVS.length*100))+'%"></div></div></div>';
+        }).join("");
+        return '<div class="dash-card"><h3>'+title+'</h3><div class="q-sub" style="margin-bottom:8px;font-size:11px">Average rank position — lower number = ranked more important. Bar = relative priority.</div>'+rows+'</div>';
+      }
+      return rankChart("Competitive advantage — importance ranking (avg position)", "cadv_rank_imp")
+           + barChart("Competitive advantage — current performance (avg)",COMP_ADVS.map(function(x){return x.name;}),function(i){return"cadv_perf_"+i;},5);
+    })()
     +openText("comp_other","Other competitive advantages")
-    +openText("florida_question","What not to leave Florida without discussing")
+    +openText("florida_question","What not to leave Florida without discussing");
+}
+
+function renderDashboard(){
+  if(state.resultsLoading) return '<div class="loading"><span class="spinner"></span>Loading responses...</div>';
+  var all=state.resultsData||[];
+  if(!all.length) return '<div class="no-resp" style="padding:2rem;text-align:center">No responses submitted yet.</div>';
+  var latest=new Date(all[all.length-1].submitted_at).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});
+  var names=all.map(function(r,i){ return r.answers.name||"Respondent "+(i+1); });
+
+  var viewTabs='<div class="dash-view-tabs">'
+    +'<button class="dash-view-tab'+(state.dashView==="summary"?" active":"")+'" onclick="setDashView(\'summary\')">Summary</button>'
+    +'<button class="dash-view-tab'+(state.dashView==="respondent"?" active":"")+'" onclick="setDashView(\'respondent\')">By respondent</button>'
+    +'</div>';
+
+  var statsRow='<div class="stat-row">'
+    +'<div class="stat"><div class="stat-val">'+all.length+'</div><div class="stat-lbl">Total responses</div></div>'
+    +'<div class="stat"><div class="stat-val">'+latest+'</div><div class="stat-lbl">Latest submission</div></div>'
+    +'</div>';
+
+  var content=state.dashView==="respondent"
+    ?renderRespondentView(all,names)
+    :renderSummaryView(all,names);
+
+  return statsRow+viewTabs+content
     +'<div style="margin-top:1.5rem;text-align:center"><button class="btn" onclick="loadResults()">↻ Refresh results</button></div>';
 }
 
@@ -579,8 +725,7 @@ function render(){
   var app=document.getElementById("app");
   if(state.view==="gate"){
     app.innerHTML='<div class="gate"><div class="gate-card">'
-      +'<div class="gate-logo">Mosaic</div><h1>Strategy Workshop</h1>'
-      +'<p>Enter the password to continue</p>'
+      +'<div class="gate-logo">Mosaic</div><h1>Strategy Workshop</h1><p>Enter the password to continue</p>'
       +'<input type="password" id="pw" placeholder="Password" onkeydown="if(event.key===\'Enter\')checkPw()">'
       +'<div class="err" id="pw-err"></div>'
       +'<button class="btn primary" onclick="checkPw()" style="width:100%">Continue →</button>'
@@ -603,10 +748,20 @@ function render(){
 window.sv=sv;
 window.setR=function(k,v){ state.answers[k]=v; state.errors=state.errors.filter(function(e){return e!==k;}); render(); };
 window.setCap=function(v){ state.answers["capacity"]=v; state.errors=state.errors.filter(function(e){return e!=="capacity";}); render(); };
+window.addExtraIdea=function(){ state.extraIdeas.push({desc:"",attr:0,diff:0}); render(); };
+window.removeExtraIdea=function(idx){ state.extraIdeas.splice(idx,1); render(); };
+window.updateExtra=function(idx,field,val){ state.extraIdeas[idx][field]=val; };
+window.updateExtraR=function(idx,field,val){ state.extraIdeas[idx][field]=val; render(); };
+window.setDashView=function(v){ state.dashView=v; render(); };
+window.setRespondent=function(i){ state.selectedRespondent=+i; render(); };
 window.prevSection=function(){ state.section=Math.max(0,state.section-1); state.errors=[]; render(); window.scrollTo(0,0); };
-window.nextSection=function(){ state.errors=[]; state.section=Math.min(SECTIONS.length-1,state.section+1); render(); window.scrollTo(0,0); };
+window.nextSection=function(){
+  state.errors=[]; state.section=Math.min(SECTIONS.length-1,state.section+1); render(); window.scrollTo(0,0);
+};
 window.submitSurvey=async function(){
-  var missing=getMissing();
+  var allRequired=[];
+  for(var s=0;s<SECTIONS.length;s++){ allRequired=allRequired.concat(getSectionRequired(s)); }
+  var missing=allRequired.filter(function(k){ var v=state.answers[k]; if(v===undefined||v===""||v===null) return true; if(k==="capacity"&&typeof v==="number"&&v<0) return true; return false; });
   if(missing.length){ state.errors=missing; render(); window.scrollTo(0,0); return; }
   state.submitting=true; render();
   try{ await saveToSupabase(); state.view="done"; render(); }
@@ -634,6 +789,26 @@ window.checkPw=function(){
   if(v===SURVEY_PASS){ state.view="survey"; render(); }
   else if(v===RESULTS_PASS){ state.view="survey"; state.resultsAuthed=true; state.tab="results"; render(); loadResults(); }
   else{ document.getElementById("pw-err").textContent="Incorrect password. Please try again."; }
+};
+
+// Drag and drop for ranking
+var _dragIdx=null,_dragStore=null;
+window.onDragStart=function(e){ _dragIdx=+e.currentTarget.getAttribute("data-idx"); _dragStore=e.currentTarget.getAttribute("data-store"); e.currentTarget.style.opacity="0.4"; e.dataTransfer.effectAllowed="move"; };
+window.onDragEnd=function(e){ e.currentTarget.style.opacity="1"; };
+window.onDragOver=function(e){ e.preventDefault(); e.dataTransfer.dropEffect="move"; };
+window.onDrop=function(e){
+  e.preventDefault();
+  var target=e.target.closest(".drag-item");
+  if(!target||_dragIdx===null) return;
+  var targetIdx=+target.getAttribute("data-idx");
+  if(targetIdx===_dragIdx) return;
+  var key=_dragStore;
+  var order=state.answers[key]?state.answers[key].slice():COMP_ADVS.map(function(_,i){return i;});
+  var from=order.indexOf(_dragIdx), to=order.indexOf(targetIdx);
+  order.splice(from,1); order.splice(to,0,_dragIdx);
+  state.answers[key]=order;
+  state.errors=state.errors.filter(function(e){return e!==key;});
+  render();
 };
 
 render();
